@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name="description" content="" />
+        <meta name="keywords" content="" />
+        <link rel="icon" href="https://cdn.glitch.com/9080f30d-dace-4c76-b648-4963ac28cc6d%2F6_transparentbackground.png?v=1588568954816" sizes="32x32" type="image/png">
+        <title>TWT - Conference</title>
+        <link rel="stylesheet" href="css/all.css">
+        <link rel="stylesheet" href="css/flat.css">  
+        <link rel="stylesheet" href="css/boot.css">
+        <link rel="stylesheet" href="css/style.css">
+          <link rel="stylesheet" href="css/card.css">
+       <link rel="stylesheet" href="css/avatar.css">
+        <link rel="stylesheet" href="css/responsive.css">
+      <script src="https://www.gstatic.com/firebasejs/7.14.1/firebase-app.js"></script>
+      <script src="https://www.gstatic.com/firebasejs/7.14.1/firebase-auth.js"></script>
+      <script src="https://www.gstatic.com/firebasejs/7.14.1/firebase-database.js"></script>
+
+
+<script>
+   var pl = /\+/g; // Regex for replacing addition symbol with a space
+      var search = /([^&=]+)=?([^&]*)/g;
+      var decode = function(s) {
+        return decodeURIComponent(s.replace(pl, " "));
+      };
+      var query = window.location.search.substring(1);
+      var urlParams = {};
+      match = search.exec(query);
+      while (match) {
+        urlParams[decode(match[1])] = decode(match[2]);
+        match = search.exec(query);
+      }
+     var room_id = urlParams.room;
+  var firebaseConfig = {
+    apiKey: "AIzaSyAeN1LuiFi-GcypDz4pC_wNPwxLdQwCj8M",
+    authDomain: "roomvr-d67f2.firebaseapp.com",
+    databaseURL: "https://roomvr-d67f2.firebaseio.com",
+    projectId: "roomvr-d67f2",
+    storageBucket: "roomvr-d67f2.appspot.com",
+    messagingSenderId: "811133048294",
+    appId: "1:811133048294:web:330f6fca728579049ab227",
+    measurementId: "G-KJ1Y67MLFP"
+  };
+  firebase.initializeApp(firebaseConfig);
+ 
+  
+  function room(){
+     if(document.querySelector('input[name="question"]:checked')!=null)
+          {
+            
+             localStorage.setItem('type','guest');
+            localStorage.setItem("facesource",document.querySelector('input[name="question"]:checked').value);
+            //document.cookie ="facesource=" + document.querySelector('input[name="question"]:checked').value;
+            window.location = 'scene.html?room='+room_id+'&username='+document.getElementById("sname").value;
+          }
+        else
+          {
+            alert("Select your face");
+          }
+  }
+</script>
+        <style>
+          
+          
+            @media only screen and (min-width:320px) and (max-width:355px){
+            .slider{
+             left:-65px
+            }
+          }
+          
+
+            @media only screen and (min-width:426px){
+            .slider{
+             left:0px
+            }
+          }
+          
+          
+          @media only screen and (max-width:461px){
+            .wrapper{
+              padding: 0px;
+              margin: 0px;
+            }
+          }
+          
+           @media only screen and (min-width:461px) and (max-width:481px){
+            .wrapper{
+              padding: 10px;
+              margin: 0px;
+            }
+          }
+          
+           @media only screen and (min-width:482px) and (max-width:500px){
+            .wrapper{
+              padding: 30px;
+              margin: 0px;
+            }
+          }
+              
+@-webkit-keyframes float_left_right {
+  0% {
+    -webkit-transform: translateX(-100px);
+    transform: translateX(-100px);
+    opacity: 1;
+  }
+
+  50% {
+    -webkit-transform: translateX(100px);
+    transform: translateX(100px);
+    opacity: 0.40;
+  }
+
+  100% {
+    -webkit-transform: translateX(-100px);
+    transform: translateX(-100px);
+    opacity: 1;
+  }
+}
+
+@keyframes float_left_right {
+  0% {
+    -webkit-transform: translateX(-100px);
+    transform: translateX(-100px);
+    opacity: 1;
+  }
+
+  50% {
+    -webkit-transform: translateX(100px);
+    transform: translateX(100px);
+    opacity: 0.40;
+  }
+
+  100% {
+    -webkit-transform: translateX(-100px);
+    transform: translateX(-100px);
+    opacity: 1;
+  }
+}
+
+          
+::-webkit-scrollbar-thumb {
+    background: #ff267c;
+}
+
+::-webkit-scrollbar-track {
+    background-color: #e9edf0;
+    border-left: 1px solid #ededed;
+}
+
+::-webkit-scrollbar {
+    width: 7px;
+    background: #ff267c;
+}
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  padding-top: 100px; /* Location of the box */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+  box-shadow: 0px 0px 30px 1px #202020;
+  border-radius: 12px;
+}
+          .modal-heading{
+            font-size: 1.5em;
+            font-weight: bold;
+            color: var(--panel-text-color);
+            text-align: center;
+          }
+/* Modal Content */
+.modal-content {
+  background-color: #fefefe;
+  margin: 0px;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 70%;
+  box-shadow: 0px 0px 30px 1px #ff267c3d;
+}
+          .modal-input{
+            font-size: 1.2em;
+    line-height: 2.0em;
+    padding-left: 1.25em;
+    padding-right: 1.25em;
+    margin: 0.5em 0;
+    border: 1px solid #e2e2e2;
+    box-sizing: border-box;
+    border-radius: 10px;
+    width: 100%;
+          }
+          .modal-terms{
+            font-size: 7pt;
+    margin-bottom: 32px;
+    text-align: center;
+          }
+/* The Close Button */
+.close {
+  color: #aaaaaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+          
+          .modal-button{
+            font-weight: bold;
+    cursor: pointer;
+    border: 0;
+    border-radius: 28px;
+    padding: 0px 18px;
+    background: var(--action-color, #FF3464);
+    font-size: 1em;
+    color: var(--action-text-color, white);
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    height: 48px;
+    width: 148px;
+          }
+
+.close:hover,
+.close:focus {
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+        </style>
+    </head>
+    <body>
+        <main>
+              <div id="mta-page-loader-container" class="mta-loader-container style1">
+                <div id="mta-page-loader" class="mta-loader">
+                    <div class="inner"></div>
+                    <img class="loader-logo" src="https://cdn.glitch.com/9080f30d-dace-4c76-b648-4963ac28cc6d%2F6_transparentbackground.png?v=1588568954816" alt="Loader Logo">
+                </div>
+            </div>
+            <header class="stick style1 logo-left">
+                <div class="container d-flex flex-row justify-content-between flex-nowrap">
+                    <div class="header-nav-wrap w-100">
+                        <nav class="nav-wrap d-flex flex-row align-items-center justify-content-between flex-nowrap">
+                            <div class="menu-wrap d-flex flex-row justify-content-start flex-nowrap w-100">
+                                <div class="logo">
+                                    <a class="desktop-logo" href="index.html" title="Home">
+                                        <img class="default-logo img-fluid" src="https://cdn.glitch.com/9080f30d-dace-4c76-b648-4963ac28cc6d%2Foutput-onlinepngtools%20(8).png?v=1588574626660" alt="Logo" srcset="https://cdn.glitch.com/9080f30d-dace-4c76-b648-4963ac28cc6d%2Foutput-onlinepngtools%20(8).png?v=1588574626660 2x">
+                                        <img class="sticky-logo img-fluid" src="https://cdn.glitch.com/9080f30d-dace-4c76-b648-4963ac28cc6d%2Foutput-onlinepngtools%20(8).png?v=1588574626660" alt="Logo" srcset="https://cdn.glitch.com/9080f30d-dace-4c76-b648-4963ac28cc6d%2Foutput-onlinepngtools%20(8).png?v=1588574626660 2x">
+                                    </a>
+                                </div><!-- Logo -->
+                                <!-- Menu -->
+                            </div><!-- Menu Wrap -->
+                           
+                        </nav>
+                    </div><!-- Header Nav Wrap -->
+                </div>
+            </header><!-- Header -->
+        
+            <div class="responsive-header w-100">
+                <div class="responsive-topbar w-100">
+                    <div class="container d-flex flex-wrap justify-content-between">
+                        <div class="logo">
+                            <a href="index.html" title="Home">
+                              <img class="img-fluid" src="https://cdn.glitch.com/9080f30d-dace-4c76-b648-4963ac28cc6d%2Foutput-onlinepngtools%20(8).png?v=1588574626660" alt="Logo"></a>
+                        </div><!-- Logo -->
+                    </div>
+                </div>
+              
+                <!-- Responsive Menu -->
+            </div>
+          
+            <section style="height: 100%;background: #f7f7f7;background-position: center;background-repeat: no-repeat;background-size: cover;margin: 0px;">
+                <div class="pattern-layer-two" style="background-image: url(https://cdn.glitch.com/9080f30d-dace-4c76-b648-4963ac28cc6d%2Fdotted-layer-1.png?v=1588571347668);position: absolute;left: 0px;top: 30%;width: 239px;-webkit-animation-name: float_left_right;-webkit-animation-duration: 30s;-webkit-animation-iteration-count: infinite;-webkit-animation-timing-function: linear;height: 163px;background-repeat: no-repeat;"></div>
+                            <div class="pattern-layer-two" style="background-image: url(https://cdn.glitch.com/9080f30d-dace-4c76-b648-4963ac28cc6d%2Fdotted-layer-1.png?v=1588571347668);position: absolute;right: 0px;top: 60%;width: 239px;-webkit-animation-name: float_left_right;-webkit-animation-duration: 30s;-webkit-animation-iteration-count: infinite;-webkit-animation-timing-function: linear;height: 163px;background-repeat: no-repeat;"></div>
+
+               <div class="wrapper container">
+	                <div class="row">
+    
+<div class="col-lg-12" style="
+    height: 120px;
+"></div>
+<div id="scene_list" class="cards col-lg-12" style="">
+                    	<div class="modal-content" style="width:100%">
+<div class="modal-heading" style="
+    padding: 20px;
+">Choose Avatar</div>
+   <br>
+    <input id="sname" class="modal-input" name="email" type="text" required="" placeholder="Your Name">
+   <br>
+     <div class="rate-us" style="margin-left: 20px;">
+<div class="modal-heading">Select your face</div>
+
+  <div>
+    <center>
+    <ul class="slider" style="position: relative;">
+  <li>
+    <input type="radio" name="question" value="https://cdn.glitch.com/a04a26d3-92af-4a88-9d49-8fcc2c5344a5%2Favatar5.png?v=1560248566448" class="radio" id="facefirst" checked=""> 
+
+    <img src="https://cdn.glitch.com/a04a26d3-92af-4a88-9d49-8fcc2c5344a5%2Favatar5.png?v=1560248566448"></li>
+
+  <li>
+    <input type="radio" name="question" value="https://cdn.glitch.com/a04a26d3-92af-4a88-9d49-8fcc2c5344a5%2Favatar1.png?v=1560248566544" class="facethree" id="facesec">
+    
+    <img src="https://cdn.glitch.com/a04a26d3-92af-4a88-9d49-8fcc2c5344a5%2Favatar1.png?v=1560248566544"></li>
+
+  <li>
+    <input type="radio" name="question" value="https://cdn.glitch.com/a04a26d3-92af-4a88-9d49-8fcc2c5344a5%2Favatar3.png?v=1560248566380" class="faceone" id="facethi">
+
+    <img src="https://cdn.glitch.com/a04a26d3-92af-4a88-9d49-8fcc2c5344a5%2Favatar3.png?v=1560248566380"></li>
+
+  <li>
+    <input type="radio" name="question" value="https://cdn.glitch.com/a04a26d3-92af-4a88-9d49-8fcc2c5344a5%2Favatar6.png?v=1560248566603" class="facefive" id="facefour">
+    
+    <img src="https://cdn.glitch.com/a04a26d3-92af-4a88-9d49-8fcc2c5344a5%2Favatar6.png?v=1560248566603">
+	
+	</li>
+
+	 <li>
+    <input type="radio" name="question" value="https://cdn.glitch.com/a04a26d3-92af-4a88-9d49-8fcc2c5344a5%2Favatar4.png?v=1560248566813" class="facesix" id="facefive">
+    
+    <img src="https://cdn.glitch.com/a04a26d3-92af-4a88-9d49-8fcc2c5344a5%2Favatar4.png?v=1560248566813">
+	
+	</li>
+	
+	 <li>
+    <input type="radio" name="question" value="https://cdn.glitch.com/a04a26d3-92af-4a88-9d49-8fcc2c5344a5%2Favatar2.png?v=1560248566702" class="facefour" id="facesix">
+    
+    <img src="https://cdn.glitch.com/a04a26d3-92af-4a88-9d49-8fcc2c5344a5%2Favatar2.png?v=1560248566702">
+	</li>
+  <div class="left-trigger" id="left">
+    <div class="left-top"></div>
+    <div class="left-bottom"></div>
+  </div>
+  <div class="right-trigger" id="right">
+    <div class="right-top"></div>
+	
+    <div class="right-bottom"></div>
+  </div>
+</ul></center></div>
+       
+             
+             </div>
+
+<center>
+    <button id="s_button" onclick="room();" class="modal-button" type="submit" style="
+    position: relative;
+    top: -28px;
+">Enter into room</button>
+</center>
+  </div>
+                  </div></div>
+              </div>
+           
+            </section>
+        
+          
+          <footer style="background: #000;text-align: center;color: #fff;">
+                <div class="w-100 pt-70 bg-color19 text-color15 position-relative">
+                    
+                  <div class="container">
+                        
+                             <div class="logo d-block">
+                                    <a href="../index.html" title="Home"><img class="img-fluid" src="https://cdn.glitch.com/9080f30d-dace-4c76-b648-4963ac28cc6d%2Foutput-onlinepngtools%20(9).png?v=1588576651894" alt="Footer Logo"></a>
+                                </div>
+                    <br>
+                                  <div class="row">
+                                    <div class="col-md-6 col-sm-6 col-lg-6">
+                                <h4 class="text-white" style="font-family: Rubik;font-size: 21px;font-weight: 500;margin-bottom: 14px;text-align: left;">About Us</h4>
+                                      <p class="font_8" style="line-height: 1.5em;text-align: justify;">
+                                        <span style="color:rgb(255, 255, 255);">Touchwizard Technologies is an award winning Virtual reality company that has been serving top brands across globe for more than 3 years. We have a strong team that is working towards making VR more mainstream and accessible to the masses. We also provide customised&nbsp;Virtual reality solutions for industries, corporate and governments. Get in touch if you are interested to work with us.</span></p><!-- Logo -->
+                                
+                            </div>
+
+                                  <div class="col-md-6 col-sm-6 col-lg-6">
+                                        <div class="widget w-100" style="text-align: left;">
+                                            <h4 class="text-white" style="">Our Address</h4>
+                                      <div><p class="font_8" style="line-height: 0px;"><span style="color:#FFFFFF;">Touchwizard Technologies Pvt Ltd</span></p><p style="color:#FFFFFF;">Kaveri Complex, 5th floor, Nungambakkam, Chennai</p>
+                                        <p class="font_8" style="line-height: 0px;"><span><span style="color:#FFFFFF;">Email:&nbsp;</span></span><span><span style="color:#FFFFFF;"><object height="0"><a class="copy_right" style="color:#ff3464" data-auto-recognition="true" data-content="info@touchwizardtechnologies.com" href="mailto:info@touchwizardtechnologies.com" data-type="mail">info@touchwizardtechnologies.com</a></object></span></span></p>
+                            <br>
+                          <div class="scl-links2">
+                                <a href="https://www.youtube.com/channel/UC2mMb5ojcQ-vv085fKcw-hQ" title="Youtube" target="_blank"><i class="fab fa-youtube"></i></a>
+                                <a href="https://www.facebook.com/touchwizardtechnologies/" title="Facebook" target="_blank"><i class="fab fa-facebook"></i></a>
+                                <a href="https://twitter.com/touch_wizard" title="Twitter" target="_blank"><i class="fab fa-twitter"></i></a>
+                                <a href="https://www.linkedin.com/company/touchwizard/" title="LinkedIN" target="_blank"><i class="fab fa-linkedin"></i></a>
+                            </div></div>
+                                            
+                                        </div>
+                                    </div>
+                                    
+                                    
+                                    
+                                </div>
+                            
+                        
+                        
+                        
+                    </div>
+                </div>
+                                  
+                       
+                        <div class="copyright w-100">
+                           <p class="mb-0">© 2020 by <a class="copy_right" style="color:#ff3464" target="_blank" href="https://www.touchwizardtechnologies.com/">Touchwizard Technologies Pvt Ltd .</a></p>
+                        </div>
+            </footer>
+        </main>
+      
+       
+      
+<script>
+
+        
+        
+const right = document.getElementById("right");
+const left = document.getElementById("left");
+var slide1 = document.getElementById("facefirst");
+var slide2 = document.getElementById("facesec");
+var slide3 = document.getElementById("facethi");
+var slide4 = document.getElementById("facefour");
+var slide5 = document.getElementById("facefive");
+var slide6 = document.getElementById("facesix");        
+var radio_array = new Array(slide1, slide2, slide3, slide4,slide5,slide6);
+var radio_length = radio_array.length;
+
+var i = 0;
+
+left.onclick = () => {
+  i--;
+  if (i < 0) {
+    i = radio_length - 1;
+  }
+  radio_array[i].checked = true;
+  
+};
+
+
+right.onclick = () => {
+  i++;
+  if (i > radio_length - 1) {
+    i = 0;
+  }
+  radio_array[i].checked = true;
+  
+};
+        
+</script>
+    
+        <script src="js/jquery.js"></script>
+        <script src="js/boot.js"></script>  
+        <script src="js/script.js"></script> 
+        <script src="js/sweet.js"></script> 
+  </body> 
+</html>

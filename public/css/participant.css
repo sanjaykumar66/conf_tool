@@ -1,0 +1,298 @@
+html,
+body,
+div,
+span,
+applet,
+object,
+iframe,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+blockquote,
+pre,
+a,
+abbr,
+acronym,
+address,
+big,
+cite,
+code,
+del,
+dfn,
+em,
+img,
+ins,
+kbd,
+q,
+s,
+samp,
+small,
+strike,
+strong,
+sub,
+sup,
+tt,
+var,
+b,
+u,
+i,
+center,
+dl,
+dt,
+dd,
+ol,
+ul,
+li,
+fieldset,
+form,
+label,
+legend,
+table,
+caption,
+tbody,
+tfoot,
+thead,
+tr,
+th,
+td,
+article,
+aside,
+canvas,
+details,
+embed,
+figure,
+figcaption,
+footer,
+header,
+hgroup,
+menu,
+nav,
+output,
+ruby,
+section,
+summary,
+time,
+mark,
+audio,
+video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline
+}
+
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+menu,
+nav,
+section {
+	display: block
+}
+
+body {
+	line-height: 1
+}
+
+ol,
+ul {
+	list-style: none
+}
+
+blockquote,
+q {
+	quotes: none
+}
+
+blockquote:before,
+blockquote:after,
+q:before,
+q:after {
+	content: '';
+	content: none
+}
+
+table {
+	border-collapse: collapse;
+	border-spacing: 0
+}
+
+
+
+
+
+.float-right {
+  float: right;
+}
+
+  
+  dropdown {
+    display: inline-block;
+    /* margin: 20px 50px; */
+  }
+  
+  dropdown label, dropdown ul li {
+    display: block;
+    width: 100px;
+    background: #ECF0F1;
+    padding: 4px 20px;
+  }
+  
+  dropdown label:hover, dropdown ul li:hover {
+    background: #1ABC9C;
+    color: white;
+    cursor: pointer;
+  }
+  
+  /* dropdown label {
+    color: #1ABC9C;
+    border-left: 4px solid #1ABC9C;
+    border-radius: 0 5px 0 0;
+    position: relative;
+    z-index: 2;
+  } */
+  
+  dropdown input {
+    display: none;
+  }
+  
+  dropdown input ~ ul {
+    position: relative;
+    visibility: hidden;
+    opacity: 0;
+    top: -20px;
+    z-index: 1;
+  }
+  
+  dropdown input:checked + label {
+    background: #1ABC9C;
+    color: white;
+  }
+  
+  dropdown input:checked ~ ul {
+    visibility: visible;
+    opacity: 1;
+    top: 0;
+  }
+  
+  /* dropdown ul li:nth-child(1) {
+    border-left: 4px solid #E74C3C;
+  }
+  dropdown ul li:nth-child(1) .fa {
+    color: #E74C3C;
+  }
+  dropdown ul li:nth-child(1):hover {
+    background: #E74C3C;
+    color: white;
+  }
+  dropdown ul li:nth-child(1):hover .fa {
+    color: white;
+  }
+  
+  dropdown ul li:nth-child(2) {
+    border-left: 4px solid #0072B5;
+  }
+  dropdown ul li:nth-child(2) .fa {
+    color: #0072B5;
+  }
+  dropdown ul li:nth-child(2):hover {
+    background: #0072B5;
+    color: white;
+  }
+  dropdown ul li:nth-child(2):hover .fa {
+    color: white;
+  }
+  
+  dropdown ul li:nth-child(3) {
+    border-left: 4px solid #2C3E50;
+  }
+  dropdown ul li:nth-child(3) .fa {
+    color: #2C3E50;
+  }
+  dropdown ul li:nth-child(3):hover {
+    background: #2C3E50;
+    color: white;
+  }
+  dropdown ul li:nth-child(3):hover .fa {
+    color: white;
+  } */
+  
+  .animate {
+    -webkit-transition: all .3s;
+    -moz-transition: all .3s;
+    -ms-transition: all .3s;
+    -ms-transition: all .3s;
+    transition: all .3s;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    /* Chrome and Safari */
+    -moz-backface-visibility: hidden;
+    /* Firefox */
+    -ms-backface-visibility: hidden;
+    /* Internet Explorer */
+  }
+
+
+
+   @media only screen and (max-width:375px){
+        .menu_drawer{
+            flex-direction:column;
+            left:-55px !important;
+        }
+        .participant{
+            left:-19px;
+        }
+    }
+
+    @media only screen and (min-width:768px){
+        .menu_drawer{
+            left:50%;
+        }
+    }
+    .participant{
+    position: relative;
+    border: 2px solid #0000;
+    top: 6px;
+    border-radius: 50px;
+    padding: 5px;
+    }
+    .menu_drawer{
+    background: #0000002b;
+    position: relative;
+    border: 2px solid #0000;
+    top: 10px;
+    border-radius: 50px;
+    position: absolute;
+    display: flex;
+    /* left:50%; */
+    }
+
+    .menu_drawer_icon{
+    padding: 5px;
+    position: relative;
+    }
+
+#tool-button{
+  position:relative;
+  z-index:1;
+}
+
+.participant_name{
+    border: none;
+    height: 29px;
+    font-size: 19px;
+    font-weight: bold;
+    font-family: sans-serif;
+    border-bottom: 2px solid;
+}

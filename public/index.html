@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name="description" content="" />
+        <meta name="keywords" content="" />
+        <link rel="icon" href="https://cdn.glitch.com/9080f30d-dace-4c76-b648-4963ac28cc6d%2F6_transparentbackground.png?v=1588568954816" sizes="96x96" type="image/png">
+        <title>RoomVR | Virtual room for collaborative task</title>
+        <link rel="stylesheet" href="css/all.css">
+        <link rel="stylesheet" href="css/flat.css">  
+        <link rel="stylesheet" href="css/boot.css">
+        <link rel="stylesheet" href="css/style.css">
+        <link rel="stylesheet" href="css/responsive.css">
+      <script src="https://www.gstatic.com/firebasejs/7.14.1/firebase-app.js"></script>
+      <script src="https://www.gstatic.com/firebasejs/7.14.1/firebase-auth.js"></script>
+      <script src="https://www.gstatic.com/firebasejs/7.14.1/firebase-database.js"></script>
+
+
+<script>
+  var firebaseConfig = {
+    apiKey: "AIzaSyAeN1LuiFi-GcypDz4pC_wNPwxLdQwCj8M",
+    authDomain: "roomvr-d67f2.firebaseapp.com",
+    databaseURL: "https://roomvr-d67f2.firebaseio.com",
+    projectId: "roomvr-d67f2",
+    storageBucket: "roomvr-d67f2.appspot.com",
+    messagingSenderId: "811133048294",
+    appId: "1:811133048294:web:330f6fca728579049ab227",
+    measurementId: "G-KJ1Y67MLFP"
+  };
+  firebase.initializeApp(firebaseConfig);
+  
+  
+  function create(){
+    if(localStorage.getItem('uid')){
+       window.location="/dash";
+    }else{
+      var modal = document.getElementById("myModal");
+      modal.style.display = "block";
+    }
+  }
+  
+  function signup(e){  
+    e.preventDefault();
+    document.getElementById('login_loader').style.display='block';
+    //
+    document.getElementById('l_button').style.background='#959595';
+    document.getElementById('l_button').disabled=true;
+    document.getElementById('loading_spinner1').style.display='block';
+    var user = document.getElementById('lemail').value;
+    var pass = document.getElementById('lpass').value;
+    firebase.auth().createUserWithEmailAndPassword(user,pass).then(function(){
+       var user1 = firebase.auth().currentUser;
+      console.log(user1.uid);
+      localStorage.setItem('uid',user1.uid);
+    var db = firebase.database().ref("users/"+user1.uid).update({
+    email:user
+  }).then(function(){
+        swal({
+  title: "Good job!",
+  text: "Sign in successfully!",
+  icon: "success"
+});
+setTimeout(function(){
+  window.location="/dash";
+},600);
+
+  });
+  }).catch(function(error) {
+  // Handle Errors here.
+  var errorCode = error.code;
+  var errorMessage = error.message;
+console.log(error.message);
+       swal({
+  title: "Error!",
+  text: error.message,
+  icon: "error"
+});
+    document.getElementById('login_loader').style.display='none';
+    document.getElementById('l_button').disabled=false;
+    document.getElementById('l_button').style.background='var(--action-color, #FF3464)';
+    document.getElementById('loading_spinner1').style.display='none';
+  //res.send(error.message);
+  // ...
+});
+  }
+  
+  
+   function signin(e){  
+    e.preventDefault();
+    document.getElementById('login_loader').style.display='block';
+    //
+    document.getElementById('s_button').style.background='#959595';
+    document.getElementById('s_button').disabled=true;
+    document.getElementById('loading_spinner').style.display='block';
+    var user = document.getElementById('semail').value;
+    var pass = document.getElementById('spass').value;
+   firebase.auth().signInWithEmailAndPassword(user,pass).then(function(){
+       var user1 = firebase.auth().currentUser;
+      console.log(user1.uid);
+      localStorage.setItem('uid',user1.uid);
+        swal({
+  title: "Good job!",
+  text: "Sign in successfully!",
+  icon: "success"
+        });
+setTimeout(function(){
+  window.location="/dash";
+},600);
+
+  }).catch(function(error) {
+  // Handle Errors here.
+  var errorCode = error.code;
+  var errorMessage = error.message;
+console.log(error.message);
+       swal({
+  title: "Error!",
+  text: error.message,
+  icon: "error"
+});
+    document.getElementById('login_loader').style.display='none';
+    document.getElementById('s_button').disabled=false;
+    document.getElementById('s_button').style.background='var(--action-color, #FF3464)';
+    document.getElementById('loading_spinner').style.display='none';
+  //res.send(error.message);
+  // ...
+});
+  }
+</script>
+       
+    <style>
+          
+          
+          @media only screen and (min-width:700px){
+            .center_div{
+              display:block !important;
+            }
+          }
+          .copy_right:hover{
+            color:#ff3464;
+          }   
+              
+@-webkit-keyframes float_left_right {
+  0% {
+    -webkit-transform: translateX(-100px);
+    transform: translateX(-100px);
+    opacity: 1;
+  }
+
+  50% {
+    -webkit-transform: translateX(100px);
+    transform: translateX(100px);
+    opacity: 0.40;
+  }
+
+  100% {
+    -webkit-transform: translateX(-100px);
+    transform: translateX(-100px);
+    opacity: 1;
+  }
+}
+
+@keyframes float_left_right {
+  0% {
+    -webkit-transform: translateX(-100px);
+    transform: translateX(-100px);
+    opacity: 1;
+  }
+
+  50% {
+    -webkit-transform: translateX(100px);
+    transform: translateX(100px);
+    opacity: 0.40;
+  }
+
+  100% {
+    -webkit-transform: translateX(-100px);
+    transform: translateX(-100px);
+    opacity: 1;
+  }
+}
+
+          
+::-webkit-scrollbar-thumb {
+    background: #ff267c;
+}
+
+::-webkit-scrollbar-track {
+    background-color: #e9edf0;
+    border-left: 1px solid #ededed;
+}
+
+::-webkit-scrollbar {
+    width: 7px;
+    background: #ff267c;
+}
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  padding-top: 100px; /* Location of the box */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+  box-shadow: 0px 0px 30px 1px #202020;
+  border-radius: 12px;
+}
+          .modal-heading{
+            font-size: 1.5em;
+            font-weight: bold;
+            color: var(--panel-text-color);
+            text-align: center;
+          }
+/* Modal Content */
+.modal-content {
+  background-color: #fefefe;
+  margin: auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%;
+  box-shadow: 0px 0px 30px 1px #202020;
+}
+          .modal-input{
+            font-size: 1.2em;
+    line-height: 2.0em;
+    padding-left: 1.25em;
+    padding-right: 1.25em;
+    margin: 0.5em 0;
+    border: 1px solid #e2e2e2;
+    box-sizing: border-box;
+    border-radius: 10px;
+    width: 100%;
+          }
+          .modal-terms{
+            font-size: 7pt;
+    margin-bottom: 32px;
+    text-align: center;
+          }
+/* The Close Button */
+.close {
+  color: #aaaaaa;
+ text-align:end;
+  font-size: 28px;
+  font-weight: bold;
+}
+          
+          .modal-button{
+            font-weight: bold;
+    cursor: pointer;
+    border: 0;
+    border-radius: 28px;
+    padding: 0px 18px;
+    background: var(--action-color, #FF3464);
+    font-size: 1em;
+    color: var(--action-text-color, white);
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    height: 48px;
+    width: 148px;
+          }
+
+.close:hover,
+.close:focus {
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+        </style>
+    </head>
+    <body>
+        <main>
+          
+          <div id="login_loader" class="mta-loader-container style1" style="display: none;background: #0000003d;">
+                <div  class="mta-loader">
+                    <div class="inner"></div>
+                    <img class="loader-logo" src="https://cdn.glitch.com/9080f30d-dace-4c76-b648-4963ac28cc6d%2F6_transparentbackground.png?v=1588568954816" alt="Loader Logo">
+                </div>
+            </div>
+            <div id="mta-page-loader-container" class="mta-loader-container style1">
+                <div id="mta-page-loader" class="mta-loader">
+                    <div class="inner"></div>
+                    <img class="loader-logo" src="https://cdn.glitch.com/9080f30d-dace-4c76-b648-4963ac28cc6d%2F6_transparentbackground.png?v=1588568954816" alt="Loader Logo">
+                </div>
+            </div>
+            <header class="stick style1 logo-left">
+                <div class="container d-flex flex-row justify-content-between flex-nowrap">
+                    <div class="header-nav-wrap w-100">
+                        <nav class="nav-wrap d-flex flex-row align-items-center justify-content-between flex-nowrap">
+                            <div class="menu-wrap d-flex flex-row justify-content-start flex-nowrap w-100">
+                                <div class="logo">
+                                    <a class="desktop-logo" href="index.html" title="Home">
+                                        <img class="default-logo img-fluid" src="https://cdn.glitch.com/9080f30d-dace-4c76-b648-4963ac28cc6d%2Foutput-onlinepngtools%20(8).png?v=1588574626660" alt="Logo" srcset="https://cdn.glitch.com/9080f30d-dace-4c76-b648-4963ac28cc6d%2Foutput-onlinepngtools%20(8).png?v=1588574626660 2x">
+                                        <img class="sticky-logo img-fluid" src="https://cdn.glitch.com/9080f30d-dace-4c76-b648-4963ac28cc6d%2Foutput-onlinepngtools%20(8).png?v=1588574626660" alt="Logo" srcset="https://cdn.glitch.com/9080f30d-dace-4c76-b648-4963ac28cc6d%2Foutput-onlinepngtools%20(8).png?v=1588574626660 2x">
+                                    </a>
+                                </div><!-- Logo -->
+                                <!-- Menu -->
+                            </div><!-- Menu Wrap -->
+                           
+                        </nav>
+                    </div><!-- Header Nav Wrap -->
+                </div>
+            </header><!-- Header -->
+        
+            <div class="responsive-header w-100">
+                <div class="responsive-topbar w-100">
+                    <div class="container d-flex flex-wrap justify-content-between">
+                        <div class="logo">
+                            <a href="index.html" title="Home">
+                              <img class="img-fluid" src="https://cdn.glitch.com/9080f30d-dace-4c76-b648-4963ac28cc6d%2Foutput-onlinepngtools%20(8).png?v=1588574626660" alt="Logo"></a>
+                        </div><!-- Logo -->
+                    </div>
+                </div>
+              
+                <!-- Responsive Menu -->
+            </div>
+          
+            <section style="height: 100vh;background:#f7f7f7;background-position: center;background-repeat: no-repeat;background-size: cover;margin: 0px;" class="row">                
+                
+              <div class="pattern-layer-two" style="background-image: url(https://cdn.glitch.com/9080f30d-dace-4c76-b648-4963ac28cc6d%2Fdotted-layer-1.png?v=1588571347668);position: absolute;left: 0px;top: 30%;width: 239px;-webkit-animation-name: float_left_right;-webkit-animation-duration: 30s;-webkit-animation-iteration-count: infinite;-webkit-animation-timing-function: linear;height: 163px;background-repeat: no-repeat;"></div>
+                            <div class="pattern-layer-two" style="background-image: url(https://cdn.glitch.com/9080f30d-dace-4c76-b648-4963ac28cc6d%2Fdotted-layer-1.png?v=1588571347668);position: absolute;right: 0px;top: 60%;width: 239px;-webkit-animation-name: float_left_right;-webkit-animation-duration: 30s;-webkit-animation-iteration-count: infinite;-webkit-animation-timing-function: linear;height: 163px;background-repeat: no-repeat;"></div>
+
+              <div class="col-12">
+                <br style="display:none" class="center_div">
+                <br style="display:none"  class="center_div">
+                  <center style="position: relative;top: 40%;">
+                    <span style="color: #000;font-size: 25px;">Share a virtual room with friends.
+                           Watch videos, play with 3D objects, or just hang out.</span>
+                <br><br><button onclick="create();" style="cursor: pointer;border-radius: 32px;border: 0;padding: 9px;text-decoration: none;background: var(--action-color, #FF3464);color: var(--action-text-color, white);display: flex;align-items: center;justify-content: center;min-width: 150px;font-weight: bold;margin-left: 12px;white-space: nowrap;font-size: 14pt;width: 13em;margin-right: 1em;">Create Room</button>
+                 </center>
+              </div>
+              <div class="col-12" style="background-image: url('https://cdn.glitch.com/01042a85-eaa9-4410-a0d9-96e8972f2b66%2Fconf.png?v=1587112448480');background-position: center;background-repeat: no-repeat;background-size: contain;">
+              </div>
+            </section>
+            <footer style="background: #000;text-align: center;color: #fff;">
+                <div class="w-100 pt-70 bg-color19 text-color15 position-relative">
+                    
+                  <div class="container">
+                        
+                             <div class="logo d-block">
+                                    <a href="../index.html" title="Home"><img class="img-fluid" src="https://cdn.glitch.com/9080f30d-dace-4c76-b648-4963ac28cc6d%2Foutput-onlinepngtools%20(9).png?v=1588576651894" alt="Footer Logo"></a>
+                                </div>
+                    <br>
+                                  <div class="row">
+                                    <div class="col-md-6 col-sm-6 col-lg-6">
+                                <h4 class="text-white" style="font-family: Rubik;font-size: 21px;font-weight: 500;margin-bottom: 14px;text-align: left;">About Us</h4>
+                                      <p class="font_8" style="line-height: 1.5em;text-align: justify;">
+                                        <span style="color:rgb(255, 255, 255);">Touchwizard Technologies is an award winning Virtual reality company that has been serving top brands across globe for more than 3 years. We have a strong team that is working towards making VR more mainstream and accessible to the masses. We also provide customised&nbsp;Virtual reality solutions for industries, corporate and governments. Get in touch if you are interested to work with us.</span></p><!-- Logo -->
+                                
+                            </div>
+
+                                  <div class="col-md-6 col-sm-6 col-lg-6">
+                                        <div class="widget w-100" style="text-align: left;">
+                                            <h4 class="text-white" style="">Our Address</h4>
+                                      <div><p class="font_8" style="line-height: 0px;"><span style="color:#FFFFFF;">Touchwizard Technologies Pvt Ltd</span></p><p style="color:#FFFFFF;">Kaveri Complex, 5th floor, Nungambakkam, Chennai</p>
+                                        <p class="font_8" style="line-height: 0px;"><span><span style="color:#FFFFFF;">Email:&nbsp;</span></span><span><span style="color:#FFFFFF;"><object height="0"><a class="copy_right" style="color:#ff3464" data-auto-recognition="true" data-content="info@touchwizardtechnologies.com" href="mailto:info@touchwizardtechnologies.com" data-type="mail">info@touchwizardtechnologies.com</a></object></span></span></p>
+                            <br>
+                          <div class="scl-links2">
+                                <a href="https://www.youtube.com/channel/UC2mMb5ojcQ-vv085fKcw-hQ" title="Youtube" target="_blank"><i class="fab fa-youtube"></i></a>
+                                <a href="https://www.facebook.com/touchwizardtechnologies/" title="Facebook" target="_blank"><i class="fab fa-facebook"></i></a>
+                                <a href="https://twitter.com/touch_wizard" title="Twitter" target="_blank"><i class="fab fa-twitter"></i></a>
+                                <a href="https://www.linkedin.com/company/touchwizard/" title="LinkedIN" target="_blank"><i class="fab fa-linkedin"></i></a>
+                            </div></div>
+                                            
+                                        </div>
+                                    </div>
+                                    
+                                    
+                                    
+                                </div>
+                            
+                        
+                        
+                        
+                    </div>
+                </div>
+                                  
+                       
+                        <div class="copyright w-100">
+                           <p class="mb-0">© 2020 by <a class="copy_right" style="color:#ff3464" target="_blank" href="https://www.touchwizardtechnologies.com/">Touchwizard Technologies Pvt Ltd .</a></p>
+                        </div>
+            </footer>
+        </main>
+      
+      
+      
+      
+    <div id="myModal" class="modal">
+  <!-- Modal content -->
+  <div class="modal-content">
+    <span class="close">×</span>
+ <div class="modal-heading">Sign In</div>
+   <br>
+    <form id="send_form" onsubmit="signin(event)">
+           <input id="semail" class="modal-input" name="email" type="email" required="" placeholder="Your email address">
+             <br>
+          <input id="spass" class="modal-input" name="email" type="password" required="" placeholder="Enter Password">
+      
+      <p class="modal-terms">By proceeding, you agree to the <a target="_blank" style="text-decoration: underline;">terms of use</a> and <a target="_blank" style="text-decoration: underline;">privacy notice</a>.</p>
+          <center>
+    <button id="s_button" class="modal-button" type="submit">
+            <span style="font-family: 'Roboto', sans-serif;cursor:pointer;">SignIn
+              <div id="loading_spinner" class="spinner-border text-danger" role="status" style="display:none;margin-left: -28px;margin-top: -25px;width: 1.5rem;height: 1.5rem;">
+                      <span class="sr-only">Loading...</span>
+                </div>
+</span>
+            </button></center>
+       <p style="text-align: center;font-size: 13px;">Not a member yet?<a onclick="document.getElementById('myModal').style.display='none';setTimeout(function(){document.getElementById('myModal1').style.display='block';},200)" style="cursor:pointer;text-decoration: underline;">Sign Up</a></p>
+    </form>
+   
+
+  </div>
+
+</div>
+      
+      
+      
+    <div id="myModal1" class="modal">
+  <div class="modal-content">
+    <span class="close">×</span>
+ <div class="modal-heading">Sign Up</div>
+   <br>
+    <form id="send_form1" onsubmit="signup(event)">
+           <input id="lemail" class="modal-input" name="email" type="email" required="" placeholder="Your email address">
+             <br>
+          <input id="lpass" class="modal-input" name="email" type="password" required="" placeholder="Enter Password">
+      
+      <p class="modal-terms">By proceeding, you agree to the <a target="_blank" style="text-decoration: underline;">terms of use</a> and <a target="_blank" style="text-decoration: underline;">privacy notice</a>.</p>
+          <center>
+    <button id="l_button" class="modal-button" type="submit">
+            <span style="font-family: 'Roboto', sans-serif;cursor:pointer;">SignUp
+              <div id="loading_spinner1" class="spinner-border text-danger" role="status" style="display:none;margin-left: -28px;margin-top: -25px;width: 1.5rem;height: 1.5rem;">
+                      <span class="sr-only">Loading...</span>
+                </div>
+</span>
+            </button></center>
+      <p style="text-align: center;font-size: 13px;">Already a member?<a onclick="document.getElementById('myModal1').style.display='none';setTimeout(function(){document.getElementById('myModal').style.display='block';},200)" style="cursor:pointer;text-decoration: underline;">Sign In</a></p>
+     
+    </form>
+   
+
+  </div>
+
+</div>
+       
+        <script>
+var modal = document.getElementById("myModal");
+
+var modal1 = document.getElementById("myModal1");
+var span = document.getElementsByClassName("close")[0];
+        
+        var span1 = document.getElementsByClassName("close")[1];
+span.onclick = function() {
+  modal.style.display = "none";
+}
+        
+        span1.onclick = function() {
+  modal1.style.display = "none";
+}
+window.onclick = function(event) {
+  if (event.target == modal) {
+    modal.style.display = "none";
+     modal1.style.display = "none";
+  }
+}
+</script>
+      
+        <script src="js/jquery.js"></script>
+        <script src="js/boot.js"></script>  
+        <script src="js/script.js"></script> 
+        <script src="js/sweet.js"></script> 
+  </body> 
+</html>

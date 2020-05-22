@@ -1,0 +1,1230 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>RoomVR | Virtual room for collaborative task</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests"/>
+    <link rel="icon" href="https://cdn.glitch.com/9080f30d-dace-4c76-b648-4963ac28cc6d%2F6_transparentbackground.png?v=1588568954816" sizes="96x96" type="image/png">
+    <link rel="stylesheet" href="css/media.css">
+    <script src="js/rtc.js"></script>
+    <script src="js/adapter.js"></script>
+    <script src="js/socket.js"></script>
+    <script src="js/media.js"></script>
+    <script src="https://www.webrtc-experiment.com/common.js"></script>
+    <script src="https://aframe.io/releases/1.0.3/aframe.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.slim.js"></script>
+    <script src="js/network.js"></script>
+   
+    <script>
+    var flag=0;
+    var networkedComp;
+    var audio;
+    var room;
+    var roomid;
+    var connection = new RTCMultiConnection();
+      
+  AFRAME.registerComponent('dynamic', {
+      init: function () {
+        var el = this.el;
+        var params = this.getUrlParams();
+        if (!params.room) {
+          window.alert('Please add a room name in the URL, eg. ?room=myroom');
+        }
+     room = params.room;
+   
+    console.log("mko"+roomid);
+        //connection.openOrJoin(params.room);
+         if(localStorage.getItem('type')=='host'){
+           console.log("reg");
+             connection.open(params.room, function() {
+        //showRoomURL(connection.sessionid);
+        // localStorage.setItem(connection.socketMessageEvent, params.room);
+    });
+        }
+        else{
+         (function reCheckRoomPresence() {
+           connection.checkPresence(params.room, function(isRoomExist) {
+          //console.log(roomid);
+            if (isRoomExist) {
+                connection.join(params.room);
+                return;
+            }
+
+            setTimeout(reCheckRoomPresence, 5000);
+        });
+         })();
+          //connection.join(params.room);
+        }
+     networkedComp = {
+            serverURL:'https://rtc-video-server.glitch.me/',
+            room: params.room,
+            debug:true 
+        };
+        el.setAttribute('networked-scene', networkedComp);
+          //this.connect_audio();
+         roomid = params.room; 
+      },
+    getUrlParams: function () {
+        var match;
+        var pl = /\+/g;  // Regex for replacing addition symbol with a space
+        var search = /([^&=]+)=?([^&]*)/g;
+        var decode = function (s) { return decodeURIComponent(s.replace(pl, ' ')); };
+        var query = window.location.search.substring(1);
+        var urlParams = {};
+    
+        match = search.exec(query);
+        while (match) {
+          urlParams[decode(match[1])] = decode(match[2]);
+          match = search.exec(query);
+        }
+        return urlParams;
+      },
+    //  connect_audio:function(){
+
+
+//roomid='';
+// console.log("test1");
+// if (localStorage.getItem(connection.socketMessageEvent)) {
+//     roomid = localStorage.getItem(connection.socketMessageEvent);
+// } else {
+//     roomid = connection.token();
+// }
+// console.log("test1"+roomid);
+
+// if (roomid && roomid.length) {
+//   console.log(roomid+"_____regr");
+//     localStorage.setItem(connection.socketMessageEvent, roomid);
+
+//     // auto-join-room
+//     (function reCheckRoomPresence() {
+//         connection.checkPresence(roomid, function(isRoomExist) {
+//             if (isRoomExist) {
+//                 connection.join(roomid);
+//                 return;
+//             }
+
+//             setTimeout(reCheckRoomPresence, 5000);
+//         });
+//     })();
+
+//     //disableInputButtons();
+// }else{
+//   console.log("qsft");
+// }
+     // }
+     });
+      
+     
+      
+      </script>
+
+    <script src="https://www.gstatic.com/firebasejs/7.8.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.8.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.8.0/firebase-database.js"></script>
+    
+
+    
+    <script type="text/javascript" src="/js/colab.js"></script>
+    <script type="text/javascript" src="/js/pdf_reader.js"></script>
+    <script type="text/javascript" src="/js/pdf.js"></script>
+
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+    <script src="js/sweet.js"></script>
+    <script src="js/modlook-controls.js"></script>
+
+    <script src="https://unpkg.com/aframe-randomizer-components@^3.0.1/dist/aframe-randomizer-components.min.js"></script>
+    <script src="https://unpkg.com/aframe-particle-system-component@1.0.5/dist/aframe-particle-system-component.min.js"></script>
+      <script src="https://unpkg.com/aframe-look-at-component@0.8.x/dist/aframe-look-at-component.min.js"></script>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
+
+    <script type="text/javascript" src="/js/spawn-in-circle.component.js"></script>
+    <script type="text/javascript/" src="/js/cufon-yui.js">
+      Cufon.replace('h1', {textShadow: '1px 1px #feec87'})('.footer');
+    </script>
+    <script type="text/javascript" src="js/jquery.js"></script>
+    <script type="text/javascript" src="js/menu_boot.js"></script>
+    <script type="text/javascript" src="js/menu.js"></script>
+    <script src="js/toggle.js"></script>
+
+
+    <link rel="stylesheet" href="/css/colab.css" />
+    <link rel="stylesheet" href="/css/conf.css" />
+
+    <link rel="stylesheet" href="/css/menu_boot.css" />
+    <link rel="stylesheet" href="/css/menu.css" />
+    <link rel="stylesheet" href="/css/toggle.css" />
+
+    <style>
+			.nav-tabs>li.active>a, .nav-tabs>li.active>a:hover, .nav-tabs>li.active>a:focus{
+				color: #555;
+    border-top: none;
+    border-right: none;
+    border-left: none;
+    cursor: default;
+    background-color: transparent;
+    border-bottom-width: 3px;
+    border-bottom-color: #ff267c;
+			}
+			#exTab2 h3 {
+  color: black;
+    /* background-color: #428bca; */
+    padding: 5px 15px;
+}
+        
+        	#exTab3 h3 {
+  color: black;
+    /* background-color: #428bca; */
+    padding: 5px 15px;
+}
+        
+         #the-canvas , #the-canvas1{
+  border: 1px solid black;
+  direction: ltr;
+}
+		</style>
+  
+  </head>
+
+  <body>
+    
+       <div id="mta-page-loader-container" class="se-pre-con mta-loader-container style1">
+                <div id="mta-page-loader" class="mta-loader">
+                    <div class="inner"></div>
+                    <img class="loader-logo" src="https://cdn.glitch.com/9080f30d-dace-4c76-b648-4963ac28cc6d%2F6_transparentbackground.png?v=1588568954816" alt="Loader Logo">
+                </div>
+    </div>
+       <div id="audios-container"></div>
+   
+       <div id="tool-button" style="z-index:1" class="row cart-drawer-push">
+     
+       <a onclick="open_pdf_drawer();" id="pdf_share" class="float" style="cursor:pointer;top: 20px;left: 20px;">
+            <i style="border:none !important" class="fa fa-file-pdf-o my-float"></i>
+       </a>
+       
+       <a id="share-button" class="float" style="cursor:pointer;top: 100px;left:20px;">
+             <i style="border:none !important" class="fa  fa-share-alt my-float"></i>
+       </a>
+    
+    <div class="container">
+			<div class="main">
+		      <div class="cart-btn">
+            <a class="float">
+              <i style="border:none !important" class="fa fa-list-ul my-float"></i>
+            </a>
+				 </div>
+			</div>
+			
+			<div class="cart-drawer cart-drawer-right"> 
+				<div class="close-btn">
+					<svg version="1.1" class="close-icon" x="0px" y="0px"
+						 width="18px" height="18px" viewbox="312 387 18 18" enable-background="new 312 387 18 18" xml:space="preserve">
+						<path fill="#000" d="M312.54,404.46c0.36,0.36,0.84,0.54,1.26,0.54c0.42,0,0.9-0.18,1.26-0.54l5.94-5.94l5.94,5.94
+						c0.36,0.36,0.84,0.54,1.26,0.54c0.42,0,0.9-0.18,1.26-0.54c0.72-0.72,0.72-1.86,0-2.52l-5.94-5.94l5.94-5.94
+						c0.72-0.72,0.72-1.86,0-2.52c-0.72-0.72-1.86-0.72-2.52,0l-5.94,5.94l-5.94-5.94c-0.72-0.72-1.86-0.72-2.52,0
+						c-0.72,0.72-0.72,1.86,0,2.52l5.94,5.94l-5.94,5.94C311.82,402.66,311.82,403.8,312.54,404.46z"/>
+					</svg>
+				</div>
+				
+       <div id="exTab2" class="container">	
+             <ul style="overflow:unset; display:flex;" class="nav nav-tabs">
+  
+                <li class="active" style="flex:auto;"><a class="menu_title" href="#2" data-toggle="tab">Participants</a></li>
+			          <li  style="flex:auto;">
+                  <a  class="menu_title" href="#1" data-toggle="tab">chat</a>
+			          </li>	
+			          <li  style="flex:auto;">
+                   <a class="menu_title" href="#3" data-toggle="tab">Media</a>
+			          </li>
+		         </ul>
+
+			 <div class="tab-content ">
+        	<div style="height: 100%;" class="tab-pane active" id="2">
+            <br>
+            <label style="font-size: 18px;font-weight: 500;color: #000;padding: 5px;">Video:</label>
+            <input id="toggle_input" onchange="toggle_div();"  type="checkbox" data-toggle="toggle" data-onstyle="success" data-style="ios">
+            <div style="height:80%" id="part_div" class="floating-chat">
+              <i class="fa fa-comments" aria-hidden="true"></i>
+                <div class="chat">
+                            <ul id="part_list" class="messages animate">
+                             
+                           </ul>
+                 </div>
+            </div>
+             <div style="display:none;height:80%;" id="video_div" class="floating-chat">
+              <i class="fa fa-comments" aria-hidden="true"></i>
+                <div class="chat">
+                            <div id="videos-container" class="messages row">
+                        
+                           </div>  
+                 </div>
+             </div>
+				</div>
+         
+			    <div style="height: 100%;overflow: auto;" class="tab-pane" id="1">
+             <div class="floating-chat">
+                <i class="fa fa-comments" aria-hidden="true"></i>
+                <div class="chat">
+                            <ul id="chat_content" class="messages">
+                      </ul>
+             <form class="footer" onsubmit="send_chat(); return false;">
+                 <input id="chat_text" placeholder="Enter your message" class="text-box" required/>
+                <button type="submit" id="sendMessage">send</button>
+            </form>
+         </div>
+     </div>
+  </div>
+			
+          <div style="height: 100%;overflow: auto;" class="tab-pane" id="3">
+          <br>
+         <center style="background: #ff267c24;outline: #ff267cf0;outline-style: dashed;outline-width: medium;">
+           <p style="font-weight: 500;padding: 39px;line-height: 1.3;position: absolute;"> Drag and drop files to upload (or) Click to choose files</p> 
+           <input type="file" id="files" name="files[]" multiple="" style="cursor:pointer;padding: 2px;width: 100%;height: 110px;opacity: 0;/* background: #2979FF; */" placeholder="Drag and Drop"></center>
+          <div style="height: 70%;" class="floating-chat">
+              <i class="fa fa-comments" aria-hidden="true"></i>
+                <div class="chat">
+                            <ul id="file_list"  class="messages animate">
+                               
+                             
+        </ul>
+    </div>
+</div>
+				</div>
+			</div>
+       </div>
+       <div id="exTab3" class="container">	
+			     <div class="tab-content ">
+         <div style="height: 100%;overflow: auto;" class="tab-pane active">          
+				</div>
+			  
+			
+        
+			</div>
+       </div>
+			</div>
+		</div>
+
+    </div>
+    
+       <div id="top">
+      <a-scene id="room" assetloaded rotation-reader dynamic>
+        <a-entity
+          id="mouseCursor"
+          cursor="rayOrigin: mouse"
+          raycaster="objects:.boxes"
+        >
+        </a-entity>
+        <a-assets>
+          <img
+            id="hotspotimage"
+            crossorigin="anonymous"
+            src="https://cdn.glitch.com/a04a26d3-92af-4a88-9d49-8fcc2c5344a5%2Fhotspots.png?v=1562761623319"
+          />
+          <a-asset-item
+            id="avatar-model"
+            src="https://cdn.glitch.com/a04a26d3-92af-4a88-9d49-8fcc2c5344a5%2FPropvrfavicon.png?v=1553319446445"
+            crossorigin="anonymous"
+          >
+          </a-asset-item>
+          <img
+            id="face"
+            src="https://cdn.glitch.com/a04a26d3-92af-4a88-9d49-8fcc2c5344a5%2Favatar6.png?v=1560248566603"
+            crossorigin="anonymous"
+          />
+          <template id="avatar-template">
+            <a-entity id="faceavatar" modify-materials>
+              <a-image
+                src="https://cdn.glitch.com/a04a26d3-92af-4a88-9d49-8fcc2c5344a5%2Fnamebox.png?v=1560252116778"
+                position="0 -0.9 -6"
+                rotation="0 0 0"
+              >
+                <a-text
+                  class="nametag"
+                  name-text
+                  value="Hello World"
+                  align="center"
+                  scale="1 1 1"
+                >
+                </a-text>
+              </a-image>
+              <a-image class="sp" position="0 0 -5"></a-image>
+            </a-entity>
+          </template>
+        </a-assets>
+        <!--          <a-entity camera look-controls>
+		<a-cursor color ="cyan">
+		</a-cursor>
+		</a-entity>  -->
+
+        <a-entity
+          id="player"
+          camera
+          networked="template:#avatar-template;attachTemplateToLocal:false;"
+          visible="false"
+          modlook-controls
+        >
+          <a-image class="sp" visible="true"> </a-image>
+          <a-text class="nametag" visible="true" name-text> </a-text>
+
+        </a-entity>
+        <a-assets id="img2"> </a-assets>
+        <a-sky id="img1" material="src:"> </a-sky>
+      </a-scene>
+    </div>
+    
+       <div id="pdf_viewer" style="height: 100%;width: 100%;padding: 5px;" class="modal">
+        <div style="height: 100%;width: 100%;padding: 0px;" class="modal-content">
+          <span id="pdf_close_button" onclick="NAF.connection.broadcastDataGuaranteed('closepdf','change');document.getElementById('pdf_viewer').style.display='none';" style="cursor:pointer;color: #2979ff;opacity: 1;" class="close">×</span>
+              <div class="modal-heading">Choose Avatar</div>
+                     <div class="row" id="menu_option1">
+                        <center>
+                          <label onclick="onPrevPage();" style="color:#000;cursor: pointer;" id="prev">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 841.9 595.3" style="height: 40px;width: 40px;transform: translateY(20px);fill: #2979ff;"><script xmlns=""></script><path d="M528.9 148.3V91.7c0-2-1.2-3.8-3.1-4.6s-4-.3-5.4 1.1L314.8 293.8c-1 1-1.5 2.3-1.5 3.5s.5 2.6 1.5 3.5l205.5 205.5c1.3 1.4 3.5 1.9 5.5 1.1 1.9-.8 3.1-2.6 3.1-4.6v-56.6c0-1.3-.5-2.6-1.5-3.5L381.9 297.2l145.5-145.4c.9-.9 1.5-2.2 1.5-3.5z"></path></svg>
+                          </label>
+                          <label style="color: #000;user-select: none;-moz-user-select: none;-khtml-user-select: none;-webkit-user-select: none;   -o-user-select: none;">
+                                 <div class="panel panel-default">
+                                    <div class="panel-body">
+                                        <span id="page_num">4</span>
+                                                / <span id="page_count">4</span>
+                                        </div>
+                                  </div>
+                            </label>
+
+                                <label onclick="onNextPage();" style="color:#000;cursor: pointer;" id="next">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 841.9 595.3" style="height: 40px;width: 40px;transform: translateY(20px);fill: #2979ff;"><script xmlns=""></script><path d="M527.4 293.6L321.9 88.1c-1.4-1.4-3.6-1.9-5.5-1.1s-3.1 2.6-3.1 4.6v56.6c0 1.3.5 2.6 1.5 3.5l145.5 145.5-145.5 145.4c-.9.9-1.5 2.2-1.5 3.5v56.6c0 2 1.2 3.8 3.1 4.6s4 .3 5.4-1.1l205.6-205.6c1-1 1.5-2.3 1.5-3.5s-.5-2.6-1.5-3.5z"></path></svg>
+                                </label>
+                          
+                        </center>
+            </div>
+        
+           <div class="row">
+              <center>
+                  <canvas style="height: 80%;width: 40%;" id="the-canvas" height="633" width="489"></canvas>
+              </center>
+            </div>
+          </div>
+              </div>
+    
+       <div id="pdf_modal" class="modal" style="height: 100%;width: 100%;">
+        <div class="modal-content" style="height: 100%;width: 100%;overflow: auto;">
+          <span onclick="document.getElementById('pdf_modal').style.display='none'"  style="cursor:pointer;" class="close">×</span>
+              <div class="row modal-heading" style="color: #000;text-align: center;font-size: 20px;font-weight: 600;">Choose File To Share</div>
+            <div id="pdf_list" class="row">
+                <div class="col-sm-5">
+    <br><br>
+      <div style="background: #2979ff66;outline: #2979FF;outline-style: dashed;outline-width: medium;"><p style="font-weight: 500;padding: 39px;line-height: 1.3;position: absolute;"> Drag and drop files to upload</p><p style="
+    font-weight: 500;
+    padding: 39px;
+    line-height: 4.3;
+    position: absolute;
+"> (or) Click to choose files</p> 
+           <input type="file" onclick="trigger_event()" id="pdf_files" name="pdf_files[]" multiple="" style="cursor:pointer;padding: 2px;width: 100%;height: 110px;opacity: 0;/* background: #2979FF; */" placeholder="Drag and Drop"></div>
+</div>
+
+          
+            
+          </div>
+              </div>
+    </div>
+ 
+       <div id="pdf_viewer_local" style="height: 100%;width: 100%;padding: 5px;" class="modal">
+        <div style="height: 100%;width: 100%;padding: 0px;" class="modal-content">
+          <span id="pdf_close_button_local" onclick="document.getElementById('pdf_viewer_local').style.display='none';" style="cursor:pointer;color: #2979ff;opacity: 1;" class="close">×</span>
+              <div class="modal-heading"></div>
+                     <div class="row">
+                        <center>
+                          <label style="color:#000;cursor: pointer;" id="prev1">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 841.9 595.3" style="height: 40px;width: 40px;transform: translateY(20px);fill: #2979ff;"><script xmlns=""></script><path d="M528.9 148.3V91.7c0-2-1.2-3.8-3.1-4.6s-4-.3-5.4 1.1L314.8 293.8c-1 1-1.5 2.3-1.5 3.5s.5 2.6 1.5 3.5l205.5 205.5c1.3 1.4 3.5 1.9 5.5 1.1 1.9-.8 3.1-2.6 3.1-4.6v-56.6c0-1.3-.5-2.6-1.5-3.5L381.9 297.2l145.5-145.4c.9-.9 1.5-2.2 1.5-3.5z"></path></svg>
+                          </label>
+                          <label style="color: #000;user-select: none;-moz-user-select: none;-khtml-user-select: none;-webkit-user-select: none;   -o-user-select: none;">
+                                 <div class="panel panel-default">
+                                    <div class="panel-body">
+                                        <span id="page_num1">4</span>
+                                                / <span id="page_count1">4</span>
+                                        </div>
+                                  </div>
+                            </label>
+
+                                <label  style="color:#000;cursor: pointer;" id="next1">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 841.9 595.3" style="height: 40px;width: 40px;transform: translateY(20px);fill: #2979ff;"><script xmlns=""></script><path d="M527.4 293.6L321.9 88.1c-1.4-1.4-3.6-1.9-5.5-1.1s-3.1 2.6-3.1 4.6v56.6c0 1.3.5 2.6 1.5 3.5l145.5 145.5-145.5 145.4c-.9.9-1.5 2.2-1.5 3.5v56.6c0 2 1.2 3.8 3.1 4.6s4 .3 5.4-1.1l205.6-205.6c1-1 1.5-2.3 1.5-3.5s-.5-2.6-1.5-3.5z"></path></svg>
+                                </label>
+                          
+                        </center>
+            </div>
+        
+           <div class="row">
+              <center>
+                  <canvas style="height: 80%;width: 40%;" id="the-canvas1" height="633" width="489"></canvas>
+              </center>
+            </div>
+          </div>
+              </div>
+    
+  </body>
+
+  <script>
+   
+    
+    function toggle_div(){
+      if(document.getElementById('toggle_input').checked){
+        
+        document.getElementById('video_div').style.display='block';
+        document.getElementById('part_div').style.display='none';
+      
+      }else{
+        document.getElementById('video_div').style.display='none';
+        document.getElementById('part_div').style.display='block';
+      }
+    }
+
+    var skyEl = document.querySelector("#img1");
+    function loaded() {
+      $(".se-pre-con").fadeOut("fast");
+    }
+    skyEl.addEventListene  r("materialtextureloaded", loaded);
+    NAF.schemas.add({
+      template: "#avatar-template",
+      components: [
+        "position",
+        "rotation",
+        /*{
+            selector: '.head',
+            component: 'material',
+            property: 'color'
+          },*/
+        {
+          selector: ".sp",
+          component: "material",
+          property: "src"
+        },
+        {
+          selector: ".nametag",
+          component: "text",
+          property: "value"
+        }
+      ]
+    });
+
+    document
+      .querySelector("#share-button")
+      .addEventListener("click", function() {
+        //this line is to watch the result in console , you can remove it later
+        if (navigator.share) {
+          navigator
+            .share({
+              title: "RoomVR",
+              text: "Click the link to join room",
+              url: "https://conf-tool.glitch.me/joinroom.html?room=" + room
+            })
+            .then(() => console.log("Share complete"))
+            .error(error =>
+              console.error("Could not share at this time", error)
+            );
+        } else {
+          var copyText = "https://conf-tool.glitch.me/joinroom.html?room=" + room;
+          var el = document.createElement("textarea");
+          // Set value (string to be copied)
+          el.value = copyText;
+          // Set non-editable to avoid focus and move outside of view
+          el.setAttribute("readonly", "");
+          el.style = { position: "absolute", left: "-9999px" };
+          document.body.appendChild(el);
+          // Select text inside element
+          el.select();
+          // Copy text to clipboard
+          document.execCommand("copy");
+          // Remove temporary element
+          document.body.removeChild(el);
+          sweetAlert(
+            "Link copied successfully",
+            "You can share this link now",
+            "success"
+          );
+        }
+      });
+    function trigger_event(){
+          function pdfhandleFileSelect(evt) {
+              var files = evt.target.files; // FileList object
+              var flag=0;
+              // Loop through the FileList and render image files as thumbnails.
+              for (var i = 0, f; f = files[i]; i++) {
+          
+                // Only process image files.
+                // if (!f.type.match('image.*')) {
+                //   continue;
+                // }
+               
+                var reader = new FileReader();
+          
+                // Closure to capture the file information.
+                reader.onload = (function(theFile) {
+                  return function(e) {
+                    // Render thumbnail.
+                    //var span = document.createElement('span');
+                  console.log(e.target.result);
+                    // var data = {
+                    //   target:e.target.result,
+                    //   name:theFile.name,
+                    //   // ext:theFile.name.split('.').pop()
+                    // }
+                   
+                     document.getElementById('pdf_list').innerHTML+=`<div class="col-sm-3">
+        <figure><img src="https://cdn.glitch.com/01042a85-eaa9-4410-a0d9-96e8972f2b66%2F%E2%80%94Pngtree%E2%80%94pdf%20file%20document%20icon_4164950.png?v=1588320971354" style="">
+  <figcaption onclick="document.getElementById('pdf_modal').style.display='none';view_pdf('`+e.target.result+`');NAF.connection.broadcastDataGuaranteed('view_pdf','`+e.target.result+`');" style="text-align: center;color: #000;cursor:pointer">`+theFile.name+`</figcaption>
+    </figure></div><div class="col-2" style="width: 20px;"></div>`;
+                  };
+                })(f);
+          
+                // Read in the image file as a data URL.
+                reader.readAsDataURL(f);
+              }
+            }
+       document.getElementById('pdf_files').addEventListener('change', pdfhandleFileSelect, false);
+    }
+     
+    
+ function open_pdf_drawer(){   
+   document.getElementById('pdf_modal').style.display='block'; 
+ }
+       
+    
+     function handleFileSelect(evt) {
+              var files = evt.target.files; // FileList object
+              var flag=0;
+              // Loop through the FileList and render image files as thumbnails.
+              for (var i = 0, f; f = files[i]; i++) {
+          
+                // Only process image files.
+                // if (!f.type.match('image.*')) {
+                //   continue;
+                // }
+                console.log(f.type);
+                if((f.type).includes('/pdf')){
+                  flag=1
+                }
+                else{
+                  flag=0;
+                }
+                var reader = new FileReader();
+          
+                // Closure to capture the file information.
+                reader.onload = (function(theFile) {
+                  return function(e) {
+                    // Render thumbnail.
+                    var span = document.createElement('span');
+                    console.log(e.target.result);
+                    var data = {
+                      target:e.target.result,
+                      name:theFile.name,
+                      // ext:theFile.name.split('.').pop()
+                    }
+                   // alert(flag);
+                    if(flag){
+                    document.getElementById('file_list').innerHTML+=`<li class="other" style="width: 100%;"><a style=" color:#fff;" href=`+e.target.result+` download=`+theFile.name+`>`+theFile.name+`</a><br><br>
+                                                                        <button style="border: 2px solid #fff;border-radius: 8px;padding: 4px 20px;" onclick="view_pdf1('`+e.target.result+`')">View</button></li>`;  
+                    }
+                    else{
+                      document.getElementById('file_list').innerHTML+=`<li class="other" style="width: 100%;"><a style=" color:#fff;" href=`+e.target.result+` download=`+theFile.name+`>`+theFile.name+`</a></li>`;
+                    }
+                    NAF.connection.broadcastDataGuaranteed("datatransfer",data);
+                  //  span.innerHTML =  e.target.result;
+                   // document.getElementById('list').insertBefore(span, null);
+                  };
+                })(f);
+          
+                // Read in the image file as a data URL.
+                reader.readAsDataURL(f);
+              }
+            }
+          
+    document.getElementById('files').addEventListener('change', handleFileSelect, false);
+    
+    
+    NAF.connection.subscribeToDataChannel("datatransfer", transfer);
+     function transfer(senderRtcId, dataType, data, targetRtcId){
+       console.log(data);
+       if((data.name).includes('.pdf')){
+                   document.getElementById('file_list').innerHTML+=`<li class="self" style="width: 100%;"><a style=" color:#fff;"  href=`+data.target+` download=`+data.name+`>`+data.name+`</a><br><br>
+                                                                        <button style="border: 2px solid #fff;border-radius: 8px;padding: 4px 20px;" onclick="view_pdf1('`+data.target+`')">View</button></li>`;
+
+       }else{
+          document.getElementById('file_list').innerHTML+=`<li class="self" style="width: 100%;"><a style=" color:#fff;"  href=`+data.target+` download=`+data.name+`>`+data.name+`</a></li>`;
+       }
+       // var count = document.getElementById('file_count').innerHTML;
+       // document.getElementById('file_count').innerHTML = parseInt(count)+1;
+     }
+    
+    function view_menu(){
+      document.getElementById('exTab3').style.display="none";
+      document.getElementById('exTab2').style.display="block";
+    }
+  
+    
+     NAF.connection.subscribeToDataChannel("prevpage", prev_page);
+     function prev_page(senderRtcId, dataType, data, targetRtcId){
+       
+       if(localStorage.getItem('type')!='host'){
+         onPrevPage();
+       }
+       
+     }
+    
+    
+  NAF.connection.subscribeToDataChannel("nextvpage", next_page);
+     function next_page(senderRtcId, dataType, data, targetRtcId){
+       if(localStorage.getItem('type')!='host'){
+       onNextPage();
+       }
+    }
+    
+    
+     NAF.connection.subscribeToDataChannel("closepdf", close_pdf);
+     function close_pdf(senderRtcId, dataType, data, targetRtcId){
+       if(localStorage.getItem('type')!='host'){
+           document.getElementById('pdf_viewer').style.display='none';
+       }
+    }
+    
+    
+    var pdfDoc = null,
+    pageNum = 1,
+    pageRendering = false,
+    pageNumPending = null,
+    scale = 0.8,
+    canvas = document.getElementById('the-canvas'),
+    ctx = canvas.getContext('2d');
+    
+    
+    
+    
+  
+  function onPrevPage() {
+       NAF.connection.broadcastDataGuaranteed("prevpage",'change');
+  if (pageNum <= 1) {
+    return;
+  }
+  pageNum--;
+  queueRenderPage(pageNum);
+}
+    
+    
+    function onNextPage() {
+        NAF.connection.broadcastDataGuaranteed("nextvpage",'change');
+  if (pageNum >= pdfDoc.numPages) {
+    return;
+  }
+  pageNum++;
+  queueRenderPage(pageNum);
+}
+
+    function queueRenderPage(num) {
+  if (pageRendering) {
+    pageNumPending = num;
+  } else {
+    renderPage(num);
+  }
+}
+    
+    
+function renderPage(num) {
+  pageRendering = true;
+  pdfDoc.getPage(num).then(function(page) {
+    var viewport = page.getViewport({scale: scale});
+    canvas.height = viewport.height;
+    canvas.width = viewport.width;
+    var renderContext = {
+      canvasContext: ctx,
+      viewport: viewport
+    };
+    var renderTask = page.render(renderContext);
+
+    // Wait for rendering to finish
+    renderTask.promise.then(function() {
+      pageRendering = false;
+      if (pageNumPending !== null) {
+        // New page rendering is pending
+        renderPage(pageNumPending);
+        pageNumPending = null;
+      }
+    });
+  });
+  document.getElementById('page_num').textContent = num;
+}
+    
+function view_pdf(data){
+    
+      
+      var url = data;
+     var pdfjsLib = window['pdfjs-dist/build/pdf'];
+    pdfjsLib.GlobalWorkerOptions.workerSrc = 'js/pdf.js';
+
+
+
+/**
+ * Get page info from document, resize canvas accordingly, and render page.
+ * @param num Page number.
+ */
+
+
+
+pdfjsLib.getDocument(url).promise.then(function(pdfDoc_) {
+  pdfDoc = pdfDoc_;
+  document.getElementById('page_count').textContent = pdfDoc.numPages;
+document.getElementById('pdf_viewer').style.display='block';
+  // Initial/first page rendering
+  renderPage(pageNum);
+});
+      
+      
+    }
+    
+    
+    
+    
+function view_pdf1(data){
+    
+      
+      var url = data;
+     var pdfjsLib = window['pdfjs-dist/build/pdf'];
+pdfjsLib.GlobalWorkerOptions.workerSrc = 'js/pdf.js';
+
+  
+  var pdfDoc = null,
+    pageNum = 1,
+    pageRendering = false,
+    pageNumPending = null,
+    scale = 0.8,
+    canvas = document.getElementById('the-canvas1'),
+    ctx = canvas.getContext('2d');
+    
+    
+    
+    
+  
+  function onPrevPage1() {
+  if (pageNum <= 1) {
+    return;
+  }
+  pageNum--;
+  queueRenderPage1(pageNum);
+}
+    
+   document.getElementById('prev1').addEventListener('click', onPrevPage1); 
+    function onNextPage1() {
+  if (pageNum >= pdfDoc.numPages) {
+    return;
+  }
+  pageNum++;
+  queueRenderPage1(pageNum);
+}
+document.getElementById('next1').addEventListener('click', onNextPage1);
+  
+    function queueRenderPage1(num) {
+  if (pageRendering) {
+    pageNumPending = num;
+  } else {
+    renderPage(num);
+  }
+}
+    
+    
+    function renderPage(num) {
+  pageRendering = true;
+  // Using promise to fetch the page
+  pdfDoc.getPage(num).then(function(page) {
+    var viewport = page.getViewport({scale: scale});
+    canvas.height = viewport.height;
+    canvas.width = viewport.width;
+    //  canvas.height = '90%';
+    // canvas.width = '90%';
+
+    // Render PDF page into canvas context
+    var renderContext = {
+      canvasContext: ctx,
+      viewport: viewport
+    };
+    var renderTask = page.render(renderContext);
+
+    // Wait for rendering to finish
+    renderTask.promise.then(function() {
+      pageRendering = false;
+      if (pageNumPending !== null) {
+        // New page rendering is pending
+        renderPage(pageNumPending);
+        pageNumPending = null;
+      }
+    });
+  });
+
+  // Update page counters
+  document.getElementById('page_num1').textContent = num;
+}
+
+pdfjsLib.getDocument(url).promise.then(function(pdfDoc_) {
+  pdfDoc = pdfDoc_;
+  document.getElementById('page_count1').textContent = pdfDoc.numPages;
+document.getElementById('pdf_viewer_local').style.display='block';
+  // Initial/first page rendering
+  renderPage(pageNum);
+});
+      
+      
+    }
+    
+     var connection = new RTCMultiConnection();
+var video_count=1
+// by default, socket.io server is assumed to be deployed on your own URL
+connection.socketURL = 'https://rtc-video-server.glitch.me/';
+
+// comment-out below line if you do not have your own socket.io server
+// connection.socketURL = 'https://rtcmulticonnection.herokuapp.com:443/';
+
+connection.socketMessageEvent = 'video-conference-demo';
+
+connection.session = {
+    audio: true,
+    video: true
+};
+
+connection.sdpConstraints.mandatory = {
+    OfferToReceiveAudio: true,
+    OfferToReceiveVideo: true
+};
+
+// STAR_FIX_VIDEO_AUTO_PAUSE_ISSUES
+// via: https://github.com/muaz-khan/RTCMultiConnection/issues/778#issuecomment-524853468
+var bitrates = 512;
+var resolutions = 'Ultra-HD';
+var videoConstraints = {};
+
+if (resolutions == 'HD') {
+    videoConstraints = {
+        width: {
+            ideal: 1280
+        },
+        height: {
+            ideal: 720
+        },
+        frameRate: 30
+    };
+}
+
+if (resolutions == 'Ultra-HD') {
+    videoConstraints = {
+        width: {
+            ideal: 1920
+        },
+        height: {
+            ideal: 1080
+        },
+        frameRate: 30
+    };
+}
+
+connection.mediaConstraints = {
+    video: videoConstraints,
+    audio: true
+};
+
+var CodecsHandler = connection.CodecsHandler;
+
+connection.processSdp = function(sdp) {
+    var codecs = 'vp8';
+    
+    if (codecs.length) {
+        sdp = CodecsHandler.preferCodec(sdp, codecs.toLowerCase());
+    }
+
+    if (resolutions == 'HD') {
+        sdp = CodecsHandler.setApplicationSpecificBandwidth(sdp, {
+            audio: 128,
+            video: bitrates,
+            screen: bitrates
+        });
+
+        sdp = CodecsHandler.setVideoBitrates(sdp, {
+            min: bitrates * 8 * 1024,
+            max: bitrates * 8 * 1024,
+        });
+    }
+
+    if (resolutions == 'Ultra-HD') {
+        sdp = CodecsHandler.setApplicationSpecificBandwidth(sdp, {
+            audio: 128,
+            video: bitrates,
+            screen: bitrates
+        });
+
+        sdp = CodecsHandler.setVideoBitrates(sdp, {
+            min: bitrates * 8 * 1024,
+            max: bitrates * 8 * 1024,
+        });
+    }
+
+    return sdp;
+};
+// END_FIX_VIDEO_AUTO_PAUSE_ISSUES
+
+// https://www.rtcmulticonnection.org/docs/iceServers/
+// use your own TURN-server here!
+// connection.iceServers = [{
+//    "urls": [
+//        "turn:13.250.13.83:3478?transport=udp"
+//        ],
+// "username": "YzYNCouZM1mhqhmseWk6",
+// "credential": "YzYNCouZM1mhqhmseWk6"
+// }];
+
+connection.videosContainer = document.getElementById('videos-container');
+connection.onstream = function(event) {
+    var existing = document.getElementById(event.streamid);
+    if(existing && existing.parentNode) {
+      existing.parentNode.removeChild(existing);
+    }
+
+    event.mediaElement.removeAttribute('src');
+    event.mediaElement.removeAttribute('srcObject');
+    event.mediaElement.muted = true;
+    event.mediaElement.volume = 0;
+
+    var video = document.createElement('video');
+
+    try {
+        video.setAttributeNode(document.createAttribute('autoplay'));
+        video.setAttributeNode(document.createAttribute('playsinline'));
+    } catch (e) {
+        video.setAttribute('autoplay', true);
+        video.setAttribute('playsinline', true);
+    }
+
+    if(event.type === 'local') {
+      video.volume = 0;
+      try {
+          video.setAttributeNode(document.createAttribute('muted'));
+      } catch (e) {
+          video.setAttribute('muted', true);
+      }
+    }
+    video.srcObject = event.stream;
+
+    var width = parseInt(connection.videosContainer.clientWidth / 3) - 20;
+  var extra = connection.getExtraData(event.userid);
+    var mediaElement;
+  connection.extra = {
+   connection_id:newid,
+  username:username
+};
+  
+  
+          if(video_count){
+            video_count=0;
+             var c = document.getElementById('part_list').children;
+            var txt = [];
+            var i;
+       for (i = 0; i < 1; i++) {  
+           c[i].innerHTML+=`<div style="width: 10px;position: relative;height: 10px;top: -90px;">
+                            <span id="`+newid+`_status" class="badge badge-success" style="color: #fff;">Online</span></div>`;
+     }
+          mediaElement = getHTMLMediaElement(video, {
+        title: username,
+        buttons: ['full-screen'],
+        width: width,
+        showOnMouseEnter: false
+    });
+            var inner_div = document.createElement('DIV');
+         inner_div.className='col-sm-12';
+         inner_div.setAttribute('id',event.userid);
+         connection.videosContainer.appendChild(inner_div);  
+        document.getElementById(event.userid).innerHTML+=`<span id="`+event.userid+`_mute" class="microphone"><i  class="fa fa-microphone" style="border:none;" onclick="mute_mic('`+event.userid+`')"></i></span>`;
+       document.getElementById(event.userid).appendChild(mediaElement);
+//connection.videosContainer.appendChild(mediaElement);  
+          }
+     else{
+       mediaElement = getHTMLMediaElement(video, {
+        title: extra.username,
+        buttons: ['full-screen'],
+        width: width,
+        showOnMouseEnter: false
+    });
+       document.getElementById(extra.connection_id).innerHTML+=`<div style="width: 10px;position: relative;height: 10px;top: -90px;">
+                                                       <span id="`+extra.connection_id+`_status" class="badge badge-success" style="color: #fff;">Online</span></div>`;
+        var inner_div = document.createElement('DIV');
+         inner_div.className='col-sm-12';
+         inner_div.setAttribute('id',event.userid);
+         connection.videosContainer.appendChild(inner_div); 
+       
+          firebase.auth().onAuthStateChanged(function(user) {
+             var user = firebase.auth().currentUser;
+            if(user!=null){
+                if(localStorage.getItem('type')=='host'){
+                  document.getElementById(event.userid).innerHTML+=`<span id="`+event.userid+`_mute" class="microphone"><i  class="fa fa-microphone" style="border:none;" onclick="mute_mic('`+event.userid+`')"></i></span>`;
+                 document.getElementById(event.userid).appendChild(mediaElement);
+                }
+            }else{
+               document.getElementById(event.userid).appendChild(mediaElement);
+            }
+          });
+       // document.getElementById(event.userid).innerHTML+=`<span id="`+event.userid+`_mute" class="microphone"><i  class="fa fa-microphone" style="border:none;" onclick="mute_mic('`+event.userid+`')"></i></span>`;
+      
+       
+       //connection.videosContainer.appendChild(mediaElement);  
+
+          }
+
+    setTimeout(function() {
+        mediaElement.media.play();
+    }, 5000);
+
+    mediaElement.id = event.streamid;
+  
+    // to keep room-id in cache
+    localStorage.setItem(connection.socketMessageEvent, connection.sessionid);
+
+//    chkRecordConference.parentNode.style.display = 'none';
+
+
+    if(event.type === 'local') {
+      connection.socket.on('disconnect', function() {
+        if(!connection.getAllParticipants().length) {
+          location.reload();
+        }
+      });
+    }
+};
+
+
+connection.onstreamended = function(event) {
+    var mediaElement = document.getElementById(event.streamid);
+    if (mediaElement) {
+        mediaElement.parentNode.removeChild(mediaElement);
+     //mediaElement.parentN
+      //e.removeChild(mediaElement);
+       
+    }
+};
+    
+
+connection.onMediaError = function(e) {
+    if (e.message === 'Concurrent mic process limit.') {
+        if (DetectRTC.audioInputDevices.length <= 1) {
+            alert('Please select external microphone. Check github issue number 483.');
+            return;
+        }
+
+        var secondaryMic = DetectRTC.audioInputDevices[1].deviceId;
+        connection.mediaConstraints.audio = {
+            deviceId: secondaryMic
+        };
+
+        connection.join(connection.sessionid);
+    }
+};
+
+
+
+
+
+
+
+// detect 2G
+if(navigator.connection &&
+   navigator.connection.type === 'cellular' &&
+   navigator.connection.downlinkMax <= 0.115) {
+  alert('2G is not supported. Please use a better internet service.');
+}
+    
+    
+    function check_info(id){
+      alert(id);
+      var extra = connection.getExtraData(id);
+      alert(extra.connection_id);
+      alert(extra.username);
+    }
+    
+    
+    
+    connection.onUserStatusChanged = function(event, dontWriteLogs) {
+      
+     
+      if(event.status=='offline'){
+         var extra = connection.getExtraData(event.userid);
+         console.log("status");
+        
+        if(document.getElementById(event.userid)){
+              document.getElementById(event.userid).remove();
+            }
+        
+        if(document.getElementById(extra.connection_id+'_status')){
+           console.log("status__");
+          if(document.getElementById(extra.connection_id+'_status').innerHTML=='Online'){
+             document.getElementById(extra.connection_id+'_status').innerHTML='Offline';
+             connection.enableLogs && !dontWriteLogs && console.info(event.userid, event.status);
+          }
+          
+        }
+     
+      }
+      
+                
+            }
+    
+    
+  function mute_mic(id){
+var streamByUserId = connection.streamEvents.selectFirst({ userid: id }).stream;
+streamByUserId.mute();
+    if(document.getElementById(id+'_mute')){
+      document.getElementById(id+'_mute').innerHTML=`<i  class="fa fa-microphone-slash" style="border:none;" onclick="unmute_mic('`+id+`')"></i>`;
+    }
+  
+    NAF.connection.broadcastDataGuaranteed("mute_mic",id);
+  }
+    
+    
+  NAF.connection.subscribeToDataChannel("mute_mic", mute_client);
+     function mute_client(senderRtcId, dataType, data, targetRtcId){
+       // var streamByUserId = connection.streamEvents.selectFirst({ userid: data }).stream;
+       //    streamByUserId.mute();   
+       if(document.getElementById(data+'_mute')){
+                 document.getElementById(data+'_mute').innerHTML=`<i  class="fa fa-microphone-slash" style="border:none;" onclick="unmute_mic('`+data+`')"></i>`;
+       }
+       
+        NAF.connection.unsubscribeToDataChannel('mute_mic');
+     }
+    
+    
+    NAF.connection.subscribeToDataChannel("unmute_mic", unmute_client);
+     function unmute_client(senderRtcId, dataType, data, targetRtcId){
+       // var streamByUserId = connection.streamEvents.selectFirst({ userid: data }).stream;
+       //    streamByUserId.unmute();   
+       if( document.getElementById(data+'_mute')){
+                 document.getElementById(data+'_mute').innerHTML=`<i  class="fa fa-microphone" style="border:none;" onclick="mute_mic('`+data+`')"></i>`;
+       }
+       
+               NAF.connection.unsubscribeToDataChannel('unmute_mic');
+
+     }
+    
+      function unmute_mic(id){
+var streamByUserId = connection.streamEvents.selectFirst({ userid: id }).stream;
+streamByUserId.unmute();
+        if(document.getElementById(id+'_mute')){
+          document.getElementById(id+'_mute').innerHTML=`<i  class="fa fa-microphone" style="border:none;" onclick="mute_mic('`+id+`')"></i>`;
+        }
+  
+         NAF.connection.broadcastDataGuaranteed("unmute_mic",id);
+  }
+    
+  </script>
+ 
+  
+  
+ 
+  
+</html>
+
+
+
+
+
+

@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name="description" content="" />
+        <meta name="keywords" content="" />
+        <link rel="icon" href="https://cdn.glitch.com/9080f30d-dace-4c76-b648-4963ac28cc6d%2F6_transparentbackground.png?v=1588568954816" sizes="32x32" type="image/png">
+        <title>RoomVR | Virtual room for collaborative task</title>
+        <link rel="stylesheet" href="css/all.css">
+        <link rel="stylesheet" href="css/flat.css">  
+        <link rel="stylesheet" href="css/boot.css">
+        <link rel="stylesheet" href="css/style.css">
+          <link rel="stylesheet" href="css/card.css">
+       <link rel="stylesheet" href="css/avatar.css">
+        <link rel="stylesheet" href="css/responsive.css">
+      <script src="https://www.gstatic.com/firebasejs/7.14.1/firebase-app.js"></script>
+      <script src="https://www.gstatic.com/firebasejs/7.14.1/firebase-auth.js"></script>
+      <script src="https://www.gstatic.com/firebasejs/7.14.1/firebase-database.js"></script>
+      <script src="https://www.gstatic.com/firebasejs/7.14.1/firebase-storage.js"></script>
+
+
+<script>
+  var firebaseConfig = {
+    apiKey: "AIzaSyAeN1LuiFi-GcypDz4pC_wNPwxLdQwCj8M",
+    authDomain: "roomvr-d67f2.firebaseapp.com",
+    databaseURL: "https://roomvr-d67f2.firebaseio.com",
+    projectId: "roomvr-d67f2",
+    storageBucket: "roomvr-d67f2.appspot.com",
+    messagingSenderId: "811133048294",
+    appId: "1:811133048294:web:330f6fca728579049ab227",
+    measurementId: "G-KJ1Y67MLFP"
+  };
+  firebase.initializeApp(firebaseConfig);
+  var db = firebase.database().ref("scene");
+  db.once("value",function(snap){
+    if(snap.numChildren()>3){
+      document.getElementById('scene_list').style.height='auto';
+    }else{
+      document.getElementById('scene_list').style.height='100vh';
+    }
+    document.getElementById('scene_list').innerHTML="";
+    snap.forEach(child=>{
+      document.getElementById('scene_list').innerHTML+=`<figure onclick="avatar('`+child.val().url+`');" id="`+child.key+`" class="card">
+			<img src="`+child.val().url+`" />
+			<figcaption>`+child.val().name+`</figcaption>
+		</figure>`;
+    })
+  })
+  
+          firebase.auth().onAuthStateChanged(function(user) {
+             var user = firebase.auth().currentUser;
+            if(user!=null){
+               var db1 = firebase.database().ref('users/'+user.uid+'/scene');
+  db1.once('value',function(snap){
+    snap.forEach(child=>{
+      document.getElementById('scene_list').innerHTML+=`<figure onclick="avatar('`+child.val().url+`');" id="`+child.key+`" class="card">
+			<img src="`+child.val().url+`" />
+			<figcaption>`+child.val().name+`</figcaption>
+		</figure>`;
+    });
+  });
+            }
+          });
+ 
+  
+  function signout(){
+     firebase.auth().signOut();
+window.location.href="/";
+  }
+  
+  //var type_name;
+ // var scene_id;
+  function avatar(url){
+    localStorage.setItem("scene",url);
+   // localStorage.setItem("type",type);
+     var modal = document.getElementById("myModal");
+      modal.style.display = "block";
+  }
+  
+  function room(){
+     if(document.querySelector('input[name="question"]:checked')!=null)
+          {
+            localStorage.setItem('type','host');
+            var cid=firebase.auth().currentUser.uid;
+            newPostKey = firebase.database().ref().child('users/'+cid+'/rooms').push().key;
+            localStorage.setItem("facesource",document.querySelector('input[name="question"]:checked').value);
+            //document.cookie ="facesource=" + document.querySelector('input[name="question"]:checked').value;
+            window.location = 'scene.html?room='+newPostKey+'&username='+document.getElementById("sname").value;
+          }
+        else
+          {
+            alert("Select your face");
+          }
+  }
+</script>
+        <style>
+          
+          
+          @media only screen and (min-width:500px){
+            .width_content{
+              width:60% !important;
+            }
+          }
+          @media only screen and (min-width:700px){
+            .center_div{
+              display:block !important;
+            }
+          }
+          .copy_right:hover{
+            color:#ff3464;
+          }   
+              
+@-webkit-keyframes float_left_right {
+  0% {
+    -webkit-transform: translateX(-100px);
+    transform: translateX(-100px);
+    opacity: 1;
+  }
+
+  50% {
+    -webkit-transform: translateX(100px);
+    transform: translateX(100px);
+    opacity: 0.40;
+  }
+
+  100% {
+    -webkit-transform: translateX(-100px);
+    transform: translateX(-100px);
+    opacity: 1;
+  }
+}
+
+@keyframes float_left_right {
+  0% {
+    -webkit-transform: translateX(-100px);
+    transform: translateX(-100px);
+    opacity: 1;
+  }
+
+  50% {
+    -webkit-transform: translateX(100px);
+    transform: translateX(100px);
+    opacity: 0.40;
+  }
+
+  100% {
+    -webkit-transform: translateX(-100px);
+    transform: translateX(-100px);
+    opacity: 1;
+  }
+}
+
+          
+            @media only screen and (min-width:320px) and (max-width:345px){
+            .slider{
+             left:-65px
+            }
+          }
+          
+
+            @media only screen and (min-width:426px) and (max-width:499px){
+            .slider{
+             left:0px
+            }
+          }
+          
+           @media only screen and (min-width:500px) and (max-width:560px){
+            .slider{
+             left:-80px
+            }
+          }
+          
+           @media only screen and (min-width:561px) and (max-width:700px){
+            .slider{
+             left:-40px
+            }
+          }
+          
+          
+           @media only screen and (min-width:701px){
+            .slider{
+             left:0px
+            }
+          }
+          
+::-webkit-scrollbar-thumb {
+    background: #ff267c;
+}
+
+::-webkit-scrollbar-track {
+    background-color: #e9edf0;
+    border-left: 1px solid #ededed;
+}
+
+::-webkit-scrollbar {
+    width: 7px;
+    background: #ff267c;
+}
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  padding-top: 100px; /* Location of the box */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+  box-shadow: 0px 0px 30px 1px #202020;
+  border-radius: 12px;
+}
+          .modal-heading{
+            font-size: 1.5em;
+            font-weight: bold;
+            color: var(--panel-text-color);
+            text-align: center;
+          }
+/* Modal Content */
+.modal-content {
+  background-color: #fefefe;
+  margin: auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%;
+  box-shadow: 0px 0px 30px 1px #202020;
+}
+          .modal-input{
+            font-size: 1.2em;
+    line-height: 2.0em;
+    padding-left: 1.25em;
+    padding-right: 1.25em;
+    margin: 0.5em 0;
+    border: 1px solid #e2e2e2;
+    box-sizing: border-box;
+    border-radius: 10px;
+    width: 100%;
+          }
+          .modal-terms{
+            font-size: 7pt;
+    margin-bottom: 32px;
+    text-align: center;
+          }
+/* The Close Button */
+.close {
+  color: #ff267c;
+  text-align:end;
+  font-size: 28px;
+  font-weight: bold;
+}
+          
+          .modal-button{
+            font-weight: bold;
+    cursor: pointer;
+    border: 0;
+    border-radius: 28px;
+    padding: 0px 18px;
+    background: var(--action-color, #FF3464);
+    font-size: 1em;
+    color: var(--action-text-color, white);
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    height: 48px;
+    width: 148px;
+          }
+
+.close:hover,
+.close:focus {
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+        </style>
+    </head>
+    <body>
+        <main>
+            <div id="mta-page-loader-container" class="mta-loader-container style1">
+                <div id="mta-page-loader" class="mta-loader">
+                    <div class="inner"></div>
+                    <img class="loader-logo" src="https://cdn.glitch.com/9080f30d-dace-4c76-b648-4963ac28cc6d%2F6_transparentbackground.png?v=1588568954816" alt="Loader Logo">
+                </div>
+            </div>
+            <header class="stick style1 logo-left">
+                <div class="container d-flex flex-row justify-content-between flex-nowrap">
+                    <div class="header-nav-wrap w-100">
+                        <nav class="nav-wrap d-flex flex-row align-items-center justify-content-between flex-nowrap">
+                            <div class="menu-wrap d-flex flex-row justify-content-start flex-nowrap w-100">
+                                <div class="logo">
+                                    <a class="desktop-logo" href="index.html" title="Home">
+                                        <img class="default-logo img-fluid" src="https://cdn.glitch.com/9080f30d-dace-4c76-b648-4963ac28cc6d%2Foutput-onlinepngtools%20(8).png?v=1588574626660" alt="Logo" srcset="https://cdn.glitch.com/9080f30d-dace-4c76-b648-4963ac28cc6d%2Foutput-onlinepngtools%20(8).png?v=1588574626660 2x">
+                                        <img class="sticky-logo img-fluid" src="https://cdn.glitch.com/9080f30d-dace-4c76-b648-4963ac28cc6d%2Foutput-onlinepngtools%20(8).png?v=1588574626660" alt="Logo" srcset="https://cdn.glitch.com/9080f30d-dace-4c76-b648-4963ac28cc6d%2Foutput-onlinepngtools%20(8).png?v=1588574626660 2x">
+                                    </a>
+                                </div><!-- Logo -->
+                                <!-- Menu -->
+                              <div class="menu d-flex flex-row align-items-center justify-content-end flex-nowrap w-100">
+                                    <ul style="position: relative;left: -20px;" class="main-menu mb-0 list-unstyled d-flex flex-row align-items-center justify-content-start flex-wrap">
+                                   <li style="text-decoration: underline;cursor: pointer;">
+                                          <a onclick="document.getElementById('myModal1').style.display='block';" title="">Upload Scene</a>
+                                        </li>
+                                        <li style="text-decoration: underline;cursor: pointer;">
+                                          <a onclick="signout();" title="">SignOut</a>         
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div><!-- Menu Wrap -->
+                           
+                        </nav>
+                    </div><!-- Header Nav Wrap -->
+                </div>
+            </header><!-- Header -->
+        
+          
+          
+          <div class="responsive-header w-100">
+                <div class="responsive-topbar w-100">
+                    <div class="container d-flex flex-wrap justify-content-between">
+                        <div class="logo">
+                            <a href="../index.html" title="Home"><img class="img-fluid" src="https://cdn.glitch.com/9080f30d-dace-4c76-b648-4963ac28cc6d%2Foutput-onlinepngtools%20(8).png?v=1588574626660" alt="Logo"></a>
+                        </div><!-- Logo -->
+                        <div class="menu-right-icons d-flex flex-row align-items-center justify-content-end flex-nowrap">
+                            <span class="responsive-menu-btn"><i class="fas fa-align-justify"></i></span>
+                            
+                            
+                        </div>
+                    </div>
+                </div>
+                 <div class="responsive-menu ps">
+                    <div class="logo d-inline-block w-100">
+                        <a href="../index.html" title="Home"><img class="img-fluid" src="https://cdn.glitch.com/9080f30d-dace-4c76-b648-4963ac28cc6d%2Foutput-onlinepngtools%20(8).png?v=1588574626660" alt="Logo"></a>
+                    </div>
+                    <ul class="mb-0 list-unstyled">
+                       <li style="text-decoration: underline;cursor: pointer;">
+                                          <a onclick="document.getElementById('myModal1').style.display='block'; $('body').removeClass('slidein');" title="">Upload Scene</a>
+                                        </li>
+                                        <li style="text-decoration: underline;cursor: pointer;">
+                                          <a onclick="signout();" title="">SignOut</a>         
+                                        </li>
+                    </ul>
+            </div>
+            </div>
+          
+           
+          
+          <section style="height: 100%;background: #f7f7f7;background-position: center;background-repeat: no-repeat;background-size: cover;margin: 0px;" class="row">
+                <div class="pattern-layer-two" style="background-image: url(https://cdn.glitch.com/9080f30d-dace-4c76-b648-4963ac28cc6d%2Fdotted-layer-1.png?v=1588571347668);position: absolute;left: 0px;top: 30%;width: 239px;-webkit-animation-name: float_left_right;-webkit-animation-duration: 30s;-webkit-animation-iteration-count: infinite;-webkit-animation-timing-function: linear;height: 163px;background-repeat: no-repeat;"></div>
+                            <div class="pattern-layer-two" style="background-image: url(https://cdn.glitch.com/9080f30d-dace-4c76-b648-4963ac28cc6d%2Fdotted-layer-1.png?v=1588571347668);position: absolute;right: 0px;top: 60%;width: 239px;-webkit-animation-name: float_left_right;-webkit-animation-duration: 30s;-webkit-animation-iteration-count: infinite;-webkit-animation-timing-function: linear;height: 163px;background-repeat: no-repeat;"></div>
+
+                  <br>
+              <div style="height:100px;" class="col-12">
+                
+              </div>
+<!--               <div class="col-12">
+                 <div class="menu d-flex flex-row align-items-center justify-content-end flex-nowrap w-100">
+                                    <ul style="color:#ff267c;" class="main-menu mb-0 list-unstyled d-flex flex-row align-items-center justify-content-start flex-wrap">
+                                        <li style="text-decoration: underline;cursor: pointer;">
+                                          <a onclick="upload();" title="">Upload Scene</a>
+                                        </li>
+                                        <li style="text-decoration: underline;cursor: pointer;">
+                                          <a onclick="signout();" title="">SignOut</a>         
+                                        </li>
+                                    </ul>
+                                </div>
+              </div> -->
+                <div class="col-12 wrapper">
+	                <div id="scene_list" class="cards">
+                    	
+                  </div>
+              </div>
+           
+            </section>
+           
+        </main>
+      
+       <div id="myModal" class="modal" style="overflow-x:hidden;">
+
+  <!-- Modal content -->
+  <div class="modal-content width_content" style="width:100%">
+    <span class="close">×</span>
+<div class="modal-heading">Choose Avatar</div>
+   <br>
+    <input id="sname" class="modal-input" name="email" type="text" required="" placeholder="Your Name">
+   <br>
+     <div class="rate-us" style="margin-left:20px;">
+<div class="modal-heading">Select your face</div>
+       <center>
+<ul class="slider" style="position: relative;">
+  <li>
+    <input type="radio" name="question" value="https://cdn.glitch.com/a04a26d3-92af-4a88-9d49-8fcc2c5344a5%2Favatar5.png?v=1560248566448" class="radio" id="facefirst" checked=""> 
+
+    <img src="https://cdn.glitch.com/a04a26d3-92af-4a88-9d49-8fcc2c5344a5%2Favatar5.png?v=1560248566448"></li>
+
+  <li>
+    <input type="radio" name="question" value="https://cdn.glitch.com/a04a26d3-92af-4a88-9d49-8fcc2c5344a5%2Favatar1.png?v=1560248566544" class="facethree" id="facesec">
+    
+    <img src="https://cdn.glitch.com/a04a26d3-92af-4a88-9d49-8fcc2c5344a5%2Favatar1.png?v=1560248566544"></li>
+
+  <li>
+    <input type="radio" name="question" value="https://cdn.glitch.com/a04a26d3-92af-4a88-9d49-8fcc2c5344a5%2Favatar3.png?v=1560248566380" class="faceone" id="facethi">
+
+    <img src="https://cdn.glitch.com/a04a26d3-92af-4a88-9d49-8fcc2c5344a5%2Favatar3.png?v=1560248566380"></li>
+
+  <li>
+    <input type="radio" name="question" value="https://cdn.glitch.com/a04a26d3-92af-4a88-9d49-8fcc2c5344a5%2Favatar6.png?v=1560248566603" class="facefive" id="facefour">
+    
+    <img src="https://cdn.glitch.com/a04a26d3-92af-4a88-9d49-8fcc2c5344a5%2Favatar6.png?v=1560248566603">
+	
+	</li>
+
+	 <li>
+    <input type="radio" name="question" value="https://cdn.glitch.com/a04a26d3-92af-4a88-9d49-8fcc2c5344a5%2Favatar4.png?v=1560248566813" class="facesix" id="facefive">
+    
+    <img src="https://cdn.glitch.com/a04a26d3-92af-4a88-9d49-8fcc2c5344a5%2Favatar4.png?v=1560248566813">
+	
+	</li>
+	
+	 <li>
+    <input type="radio" name="question" value="https://cdn.glitch.com/a04a26d3-92af-4a88-9d49-8fcc2c5344a5%2Favatar2.png?v=1560248566702" class="facefour" id="facesix">
+    
+    <img src="https://cdn.glitch.com/a04a26d3-92af-4a88-9d49-8fcc2c5344a5%2Favatar2.png?v=1560248566702">
+	</li>
+  <div class="left-trigger" id="left">
+    <div class="left-top"></div>
+    <div class="left-bottom"></div>
+  </div>
+  <div class="right-trigger" id="right">
+    <div class="right-top"></div>
+	
+    <div class="right-bottom"></div>
+  </div>
+       </ul></center>
+             
+             </div>
+
+<center>
+    <button id="s_button" onclick="room();" class="modal-button" type="submit">Enter into room</button>
+</center>
+  </div>
+
+</div>
+      
+      
+      
+      
+      <div id="myModal1" class="modal" style="height: 100%; width: 100%; display: none;">
+        <div class="modal-content" style="height: 100%;width: 100%;overflow: auto;">
+          <span onclick="document.getElementById('myModal1').style.display='none'" style="cursor:pointer;" class="close">×</span>
+              <div class="row modal-heading" style="color: #000;text-align: center;font-size: 20px;font-weight: 600;">Upload Scene</div>
+            <div id="pdf_list" class="row">
+                <div class="col-sm-5">
+              <br><br>
+            <div style="background: #2979ff66;outline: #2979FF;outline-style: dashed;outline-width: medium;">
+              <p style="font-weight: 500;padding: 39px; line-height: 1.3; position: absolute;">  Drag and drop files to upload or click to upload</p><br>
+           <input type="file" onclick="trigger_event()" id="upload" name="upload[]" multiple="" style="cursor:pointer;padding: 2px;width: 100%;height: 110px;opacity: 0;/* background: #2979FF; */" placeholder="Drag and Drop"></div>
+              </div>
+
+          
+            
+        
+          </div>
+              </div>
+    </div>
+      
+      
+
+      
+  <script>
+var modal = document.getElementById("myModal");
+
+var modal1 = document.getElementById("myModal1");
+var span = document.getElementsByClassName("close")[0];
+        
+        var span1 = document.getElementsByClassName("close")[1];
+span.onclick = function() {
+  modal.style.display = "none";
+}
+        
+        span1.onclick = function() {
+  modal1.style.display = "none";
+}
+window.onclick = function(event) {
+  if (event.target == modal) {
+    modal.style.display = "none";
+     modal1.style.display = "none";
+  }
+}
+        
+        
+const right = document.getElementById("right");
+const left = document.getElementById("left");
+var slide1 = document.getElementById("facefirst");
+var slide2 = document.getElementById("facesec");
+var slide3 = document.getElementById("facethi");
+var slide4 = document.getElementById("facefour");
+var slide5 = document.getElementById("facefive");
+var slide6 = document.getElementById("facesix");        
+var radio_array = new Array(slide1, slide2, slide3, slide4,slide5,slide6);
+var radio_length = radio_array.length;
+
+var i = 0;
+
+left.onclick = () => {
+  i--;
+  if (i < 0) {
+    i = radio_length - 1;
+  }
+  radio_array[i].checked = true;
+  
+};
+
+
+right.onclick = () => {
+  i++;
+  if (i > radio_length - 1) {
+    i = 0;
+  }
+  radio_array[i].checked = true;
+  
+};
+        
+    
+
+       function trigger_event(){
+         
+          function pdfhandleFileSelect(evt) {
+              var files = evt.target.files; // FileList object
+              var flag=0;
+              for (var i = 0, f; f = files[i]; i++) {
+          
+            
+               
+                var reader = new FileReader();
+        
+                reader.onload = (function(theFile) {
+                  return function(e) {
+                    //  var file = files[i].files.item(0);
+                    //console.log(e.target.result);
+                    const name = theFile.name;
+                   const ref = firebase.storage().ref();
+      const task = ref.child(name).put(theFile);
+        task.then(snapshot => snapshot.ref.getDownloadURL()).then((url1) => {
+            console.log("orginal = " + url1);
+            url = url1;
+           var user = firebase.auth().currentUser;
+          var key = firebase.database().ref('users/'+user.uid+'/scene').push();
+          firebase.database().ref('users/'+user.uid+'/scene/'+key.key).update({
+            name:theFile.name,
+            url:url
+          });
+          console.log(key.key);
+         // console.log(url);
+            document.getElementById('scene_list').innerHTML+=`<figure onclick="avatar('`+url+`');" id="`+key.key+`" class="card">
+			<img src="`+url+`" />
+			<figcaption>`+theFile.name+`</figcaption>
+		</figure>`;
+        });
+                  
+                  console.log(e.target.result);
+                   
+                     document.getElementById('pdf_list').innerHTML+=`<div class="col-sm-3">
+                      <figure><img src="`+e.target.result+`" style="">
+                  <figcaption  style="text-align: center;color: #000;cursor:pointer">`+theFile.name+`</figcaption>
+                    </figure></div><div class="col-2" style="width: 20px;"></div>`;
+                    
+                  };
+                })(f);
+          
+                // Read in the image file as a data URL.
+                reader.readAsDataURL(f);
+              }
+            }
+       document.getElementById('upload').addEventListener('change', pdfhandleFileSelect, false);
+    }
+    
+</script>
+    
+        <script src="js/jquery.js"></script>
+      <script src="js/scrollbar.min.js"></script>
+        <script src="js/boot.js"></script>  
+        <script src="js/script.js"></script> 
+        <script src="js/sweet.js"></script> 
+  </body> 
+</html>
